@@ -30,6 +30,11 @@ return [
                 ],
             ],
         ],
+        "db" => [
+            'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+            'username' => 'yii2advanced',
+            'password' => 'secret',
+        ],
     ],
     'params' => $params,
 ];

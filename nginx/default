@@ -6,17 +6,19 @@ http{
 
 
     server {
-            listen 80;
+            listen 8020;
+
             root /app/frontend/web;
-            server_name frontend.dev;
             index index.php;
+
+
 
             if (!-e $request_filename) {
                 rewrite ^.*$ /index.php last;
             }
 
             location ~ \.php$ {
-            fastcgi_pass php-fpm:9000;
+            fastcgi_pass frontend:9000;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param PHP_VALUE "error_log=/var/log/nginx/application_php_errors.log";
@@ -27,16 +29,19 @@ http{
     }
 
     server {
-        listen 80;
+        listen 8040;
+
         root /app/backend/web;
         index index.php;
+
+
 
         if (!-e $request_filename) {
             rewrite ^.*$ /index.php last;
         }
 
         location ~ \.php$ {
-            fastcgi_pass php-fpm:9000;
+            fastcgi_pass backend:9000;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param PHP_VALUE "error_log=/var/log/nginx/application_php_errors.log";
@@ -45,4 +50,5 @@ http{
             include fastcgi_params;
         }
     }
+
 }

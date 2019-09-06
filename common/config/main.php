@@ -9,5 +9,10 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        "db" => [
+            'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+            'username' => 'yii2advanced',
+            'password' => 'secret',
+        ],
     ],
 ];
