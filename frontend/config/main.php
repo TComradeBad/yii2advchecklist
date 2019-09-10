@@ -49,6 +49,12 @@ return [
             'username' => 'yii2advanced',
             'password' => 'secret',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => false,
+            'enableStrictParsing' => false,
+            'showScriptName' => false,
+
+        ]
     ],
     'params' => $params,
 ];

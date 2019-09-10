@@ -1,3 +1,3 @@
 FROM php:fpm
 
-RUN bash -c "/bin/ext/docker-php-ext-install pdo_mysql && /bin/ext/docker-php-ext-enable pdo_mysql"
+RUN bash -c "docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql && docker-php-ext-install mbstring && docker-php-ext-install zip && docker-php-ext-install gd"

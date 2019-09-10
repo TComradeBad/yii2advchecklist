@@ -35,6 +35,7 @@ return [
             'username' => 'yii2advanced',
             'password' => 'secret',
         ],
+
     ],
     'params' => $params,
 ];

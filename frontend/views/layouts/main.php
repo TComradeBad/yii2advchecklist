@@ -39,7 +39,16 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+
     ];
+    $auth = Yii::$app->authManager;
+
+
+    if (in_array("super_admin",array_keys($auth->getAssignments(Yii::$app->user->id)),true))
+    {
+        $menuItems[] = ['label' => 'Admin', 'url' => ['/admin/index']];
+    }
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

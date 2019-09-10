@@ -14,5 +14,10 @@ return [
             'username' => 'yii2advanced',
             'password' => 'secret',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+
+
     ],
 ];
