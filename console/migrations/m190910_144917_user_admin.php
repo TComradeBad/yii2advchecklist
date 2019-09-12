@@ -38,14 +38,17 @@ class m190910_144917_user_admin extends Migration
         $user->generateEmailVerificationToken();
         $user->save();
         $auth = Yii::$app->authManager;
-        $auth->assign($auth->getRole("super_admin"),$user->id);
+        $auth->assign($auth->getRole("super_admin"), $user->id);
     }
 
     public function down()
     {
-        User::deleteAll(["username"=>"admin"]);
+        try {
+            User::deleteAll(["username" => "admin"]);
+        } catch (\yii\db\Exception $exception) {
+            echo $exception->getMessage();
+        }
 
-        return false;
     }
 
 }

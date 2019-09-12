@@ -48,4 +48,13 @@ return array (
       '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
     ),
   ),
+  'pahanini/yii2-consolelog' => 
+  array (
+    'name' => 'pahanini/yii2-consolelog',
+    'version' => '3.0.1.0',
+    'alias' => 
+    array (
+      '@pahanini/log' => $vendorDir . '/pahanini/yii2-consolelog',
+    ),
+  ),
 );

@@ -36,25 +36,20 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
         "db" => [
             'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
             'username' => 'yii2advanced',
             'password' => 'secret',
         ],
-        'urlManager' => [
-            'enablePrettyUrl' => false,
-            'enableStrictParsing' => false,
-            'showScriptName' => false,
 
-        ]
     ],
     'params' => $params,
 ];

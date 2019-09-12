@@ -36,6 +36,7 @@ class ComposerStaticInitd2723fcc7b242da24da3a3d7f6717c1f
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+            'pahanini\\log\\' => 13,
         ),
         'c' => 
         array (
@@ -133,6 +134,10 @@ class ComposerStaticInitd2723fcc7b242da24da3a3d7f6717c1f
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'pahanini\\log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pahanini/yii2-consolelog',
         ),
         'cebe\\markdown\\' => 
         array (
