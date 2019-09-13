@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\helpers\Html;
@@ -44,8 +45,11 @@ AppAsset::register($this);
     $auth = Yii::$app->authManager;
 
 
-    if (in_array("super_admin",array_keys($auth->getAssignments(Yii::$app->user->id)),true))
-    {
+    if (
+        in_array("super_admin", array_keys($auth->getAssignments(Yii::$app->user->id)), true) or
+        in_array("admin", array_keys($auth->getAssignments(Yii::$app->user->id)), true) or
+        in_array("moderator", array_keys($auth->getAssignments(Yii::$app->user->id)), true)
+    ) {
         $menuItems[] = ['label' => 'Admin', 'url' => ['/admin/index']];
     }
 

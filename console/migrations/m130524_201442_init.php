@@ -20,7 +20,8 @@ class m130524_201442_init extends Migration
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
             "banned" =>$this->boolean()->defaultValue("0"),
-
+            "user_cl_count" => $this->integer()->defaultValue("10"),
+            "user_cl_item_count" => $this->integer()->defaultValue("10"),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

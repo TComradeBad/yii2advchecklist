@@ -1,6 +1,8 @@
 <?php
 /* @var $this yii\web\View */
+/* @var  $user User*/
 
+use common\models\User;
 use yii\bootstrap\Html;
 
 ?>
@@ -18,16 +20,16 @@ use yii\bootstrap\Html;
     <button>Delete Users</button>
 </a><br><br>
 
-<a href="<? echo Yii::$app->urlManager->createUrl(["admin/roles"])?>">
+<a href="<? echo Yii::$app->urlManager->createUrl(["admin/set-roles"])?>">
     <button>Set Users roles</button>
 </a><br><br>
 
-<a href="<? echo Yii::$app->urlManager->createUrl(["admin/cl-count"])?>">
-    <button>Set Users roles</button>
+<a href="<? echo Yii::$app->urlManager->createUrl(["admin/set-count"])?>">
+    <button>Set Checklists count</button>
 </a><br><br>
 
-<a href="<? echo Yii::$app->urlManager->createUrl(["admin/manage-cl"])?>">
-    <button>Manage Users Checklists</button>
+<a href="<? echo Yii::$app->urlManager->createUrl(["admin/view-cl"])?>">
+    <button>View Users Checklists</button>
 </a><br><br>
 
 
