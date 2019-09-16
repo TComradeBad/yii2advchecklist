@@ -1,8 +1,10 @@
 <?php
+
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
-use yii\web\Controller;
+use yii\rest\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -70,20 +72,26 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        $data = Yii::$app->getRequest()->getBodyParams();
+        if (!isset($data)) {
+            $data = Yii::$app->getRequest()->getQueryParams();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
+        $user = User::findOne(["username" => $data["username"]]);
 
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        if ($user->validatePassword($data["password"])) {
+            $user->generateAuthKey();
+            $user->update();
+            $response = $this->asJson($user);
+            $response->headers->set("token",$user->getAuthKey());
+                return $response;
+
+            }
+
+
+        return $this->redirect(null, 400);
+
+
     }
 
     /**

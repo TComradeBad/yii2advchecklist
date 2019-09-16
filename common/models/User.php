@@ -1,11 +1,15 @@
 <?php
+
 namespace common\models;
 
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\filters\auth\HttpBasicAuth;
 use yii\web\IdentityInterface;
+use common\models\CheckList;
+use yii\filters\auth\HttpBearerAuth;
 
 /**
  * User model
@@ -24,6 +28,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property \common\models\CheckList[] $checkLists
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -31,6 +37,47 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    public function init()
+    {
+        parent::init();
+        Yii::$app->user->enableSession = false;
+
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors [] = TimestampBehavior::class;
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+
+        ];
+        return $behaviors;
+    }
+
+    public function fields()
+    {
+        return [
+            "id",
+            'username',
+            'email',
+            "user_cl_count",
+            "user_cl_item_count",
+            'created_at',
+            "updated_at",
+            "banned"
+
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [
+            "checklists" => function () {
+                return $this->checkLists;
+            }
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -43,20 +90,10 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
-       return [
-           ['status', 'default', 'value' => self::STATUS_INACTIVE],
+        return [
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -74,7 +111,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['auth_key' => $token]);
     }
 
     /**
@@ -111,7 +148,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
         ]);
@@ -129,7 +167,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -170,9 +208,8 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
+     * @param $password
+     * @throws \yii\base\Exception
      */
     public function setPassword($password)
     {
@@ -220,6 +257,11 @@ class User extends ActiveRecord implements IdentityInterface
         $role = current($roles);
 
         return $role->name;
+    }
+
+    public function getCheckLists()
+    {
+        return $this->hasMany(CheckList::class, ["user_id" => "id"]);
     }
 
 }

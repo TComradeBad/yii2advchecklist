@@ -15,10 +15,14 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
+            "loginUrl" => null,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
@@ -37,14 +41,18 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            "rules" => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'user', "pluralize" => false],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'check-list', "pluralize" => false],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'check-list-item', "pluralize" => false],
+            ]
         ],
-        */
+
         "db" => [
             'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
             'username' => 'yii2advanced',
