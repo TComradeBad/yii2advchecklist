@@ -2,20 +2,30 @@
 
 /* @var $this yii\web\View */
 
-/* @var  $user \common\models\User */
+/* @var  $del_id integer */
+/* @var $error string */
 
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\web\User;
+?>
+<script>
+    document.getElementsByClassName('modal-header')[0].innerHTML ='<h3>Delete</h3>';
+</script>
 
+
+<?php
+if(isset($error))
+{
+    echo "<h1>$error</h1>";
+}elseif(isset($del_id)){
+    echo Html::beginForm(["delete","upd_id"=>$del_id]).
+        "<h1>Are you sure about that?</h1>".
+        "<h2><br></h2>".
+        Html::submitButton("Delete").
+        Html::endForm();
+
+}
 ?>
 
-<? foreach (\common\models\User::find()->all() as $user) : ?>
-    <?= $user->username ?>
-    <? if (Yii::$app->user->can("manage_users", ["affected_user" => $user])): ?>
-        <?= Html::beginForm(["admin/delete", "id" => $user->id], "POST", ['enctype' => 'multipart/form-data']) ?>
-        <?= Html::submitButton("Delete") ?>
-        <?= Html::endForm() ?>
-    <? endif ?>
-    <br>
-<? endforeach; ?>
+<h2><br></h2>

@@ -56,6 +56,9 @@ class CheckList extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array|false
+     */
     public function fields()
     {
         return [
@@ -66,8 +69,8 @@ class CheckList extends \yii\db\ActiveRecord
             'created_at',
             "updated_at",
             "items" => function () {
-        return $this->checklistItems;
-    },
+                return $this->checklistItems;
+            },
         ];
     }
 

@@ -13,7 +13,7 @@ use yii\rest\Controller;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends ActiveController
+class UserController extends BaseController
 {
     public $modelClass = User::class;
 

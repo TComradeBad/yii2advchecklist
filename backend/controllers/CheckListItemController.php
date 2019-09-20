@@ -11,7 +11,7 @@ use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\Response;
 
-class CheckListItemController extends ActiveController
+class CheckListItemController extends BaseController
 {
     public $modelClass = CheckListItem::class;
 

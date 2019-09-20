@@ -1,41 +1,18 @@
 <?php
+namespace console\controllers;
 
-use common\models\User;
 use common\rbac\rules\AdminRule;
-use yii\db\Migration;
+use yii\console\Controller;
 
-/**
- * Class m190909_141830_init_rbac
- */
-class m190909_141830_init_rbac extends Migration
+class RbacController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
+    public function actionCreate()
     {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m190909_141830_init_rbac cannot be reverted.\n";
-
-        return false;
-    }
-
-
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-        $auth = Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
         $auth->removeAll();
         /**
-        * Rules
-        */
+         * Rules
+         */
         $rule = new AdminRule();
         $auth->add($rule);
 
@@ -90,15 +67,11 @@ class m190909_141830_init_rbac extends Migration
         $auth->addChild($super_admin,$admin);
         $auth->addChild($super_admin,$delete_users);
         $auth->addChild($super_admin,$set_user_role);
-
-
-
     }
 
-    public function down()
+    public function actionRemove()
     {
-        $auth = Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
         $auth->removeAll();
     }
-
 }

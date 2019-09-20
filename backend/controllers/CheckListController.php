@@ -10,7 +10,7 @@ use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\Response;
 
-class CheckListController extends ActiveController
+class CheckListController extends BaseController
 {
     public $modelClass = CheckList::class;
 

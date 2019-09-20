@@ -40,7 +40,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function init()
     {
         parent::init();
-        Yii::$app->user->enableSession = false;
+        //Yii::$app->user->enableSession = false;
 
     }
 
@@ -48,10 +48,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $behaviors = parent::behaviors();
         $behaviors [] = TimestampBehavior::class;
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::class,
-
-        ];
         return $behaviors;
     }
 
@@ -245,14 +241,15 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    public function roles()
+    /**
+     * @inheritDoc
+     */
+    public function primaryRole()
     {
         $roles = Yii::$app->authManager->getRolesByUser($this->id);
         if (!$roles) {
             return null;
         }
-
-        reset($roles);
         /* @var $role \yii\rbac\Role */
         $role = current($roles);
 

@@ -1,34 +1,13 @@
 <?php
 
+namespace console\controllers;
+
 use common\models\User;
-use yii\db\Migration;
+use yii\console\Controller;
 
-/**
- * Class m190910_144917_user_admin
- */
-class m190910_144917_user_admin extends Migration
+class AdminSeedController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m190910_144917_user_admin cannot be reverted.\n";
-
-        return false;
-    }
-
-
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
+    public function actionCreate()
     {
         //super admin
         $user = new User();
@@ -38,7 +17,7 @@ class m190910_144917_user_admin extends Migration
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->save();
-        $auth = Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
         $auth->assign($auth->getRole("super_admin"), $user->id);
 
         //admin
@@ -49,7 +28,7 @@ class m190910_144917_user_admin extends Migration
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->save();
-        $auth = Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
         $auth->assign($auth->getRole("admin"), $user->id);
 
         //moderator
@@ -60,11 +39,11 @@ class m190910_144917_user_admin extends Migration
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->save();
-        $auth = Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
         $auth->assign($auth->getRole("moderator"), $user->id);
     }
 
-    public function down()
+    public function actionRemove()
     {
         try {
             User::deleteAll(["username" => "admin"]);
@@ -73,7 +52,7 @@ class m190910_144917_user_admin extends Migration
         } catch (\yii\db\Exception $exception) {
             echo $exception->getMessage();
         }
-
     }
+
 
 }
