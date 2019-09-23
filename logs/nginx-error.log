@@ -5289,3 +5289,273 @@ $_SERVER = [
     'CONTENT_LENGTH' => '',
     'CONTENT_TYPE' => '',
     'RE
+2019/09/23 12:55:21 [error] 6#6: *228 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 48. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 48. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-de
+2019/09/23 12:55:21 [error] 6#6: *228 FastCGI sent in stderr: "e87db770198f1cc366fbc1630717535; _csrf-frontend=9ee9b9275204e6d4dd46542a583d53cbde97c68000ddb5f19ec8c33adaf735afa%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22TVuIxpfDWIu91ExZdSbnIPVOYXKcQ0Si%22%3B%7D',
+    'HTTP_REFERER' => 'http://frontend.local/user/profile',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '695',
+    'HTTP_CONTENT_TYPE' => 'multipart/form-data; boundary=---------------------------14337317031677382803199407736',
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+    'HTTP_X_PJAX_CONTAINER' => '#p0',
+    'HTTP_X_PJAX' => 'true',
+    'HTTP_X_CSRF_TOKEN' => 'Y36iBKv8F4oTbLax_6C8sP0nE73ZMsi7ybv1p6KHX-83KNdN04xxzkQlw4jO5cTqmXRx05BinvSQ477E87cMhg==',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html, */*; q=0.01',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '32844',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/change-password',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '695',
+    'CONTENT_TYPE' => 'multipart/form-data; boundary=---------------------------14337317031677382803199407736',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569243321.187262,
+    'REQUEST_TIME' => 1569243321,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upst
+2019/09/23 13:09:01 [error] 6#6: *240 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 47. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 47. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-de
+2019/09/23 13:09:01 [error] 6#6: *240 FastCGI sent in stderr: "'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '232',
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded; charset=UTF-8',
+    'HTTP_X_CSRF_TOKEN' => 'Y36iBKv8F4oTbLax_6C8sP0nE73ZMsi7ybv1p6KHX-83KNdN04xxzkQlw4jO5cTqmXRx05BinvSQ477E87cMhg==',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => '*/*',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '33086',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/change-password',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '232',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded; charset=UTF-8',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569244140.860017,
+    'REQUEST_TIME' => 1569244140,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/change-password HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/profile"
+2019/09/23 13:09:01 [error] 6#6: *243 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 47. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 47. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-de
+2019/09/23 13:09:01 [error] 6#6: *243 FastCGI sent in stderr: "'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '232',
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded; charset=UTF-8',
+    'HTTP_X_CSRF_TOKEN' => 'Y36iBKv8F4oTbLax_6C8sP0nE73ZMsi7ybv1p6KHX-83KNdN04xxzkQlw4jO5cTqmXRx05BinvSQ477E87cMhg==',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => '*/*',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '33098',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/change-password',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '232',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded; charset=UTF-8',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569244141.059783,
+    'REQUEST_TIME' => 1569244141,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/change-password HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/profile"
+2019/09/23 13:09:02 [error] 6#6: *245 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 47. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 47. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-de
+2019/09/23 13:09:02 [error] 6#6: *245 FastCGI sent in stderr: "ION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '691',
+    'HTTP_CONTENT_TYPE' => 'multipart/form-data; boundary=---------------------------21316119801610837293707165750',
+    'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+    'HTTP_X_PJAX_CONTAINER' => '#p0',
+    'HTTP_X_PJAX' => 'true',
+    'HTTP_X_CSRF_TOKEN' => 'Y36iBKv8F4oTbLax_6C8sP0nE73ZMsi7ybv1p6KHX-83KNdN04xxzkQlw4jO5cTqmXRx05BinvSQ477E87cMhg==',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html, */*; q=0.01',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '33104',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/change-password',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '691',
+    'CONTENT_TYPE' => 'multipart/form-data; boundary=---------------------------21316119801610837293707165750',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569244141.175363,
+    'REQUEST_TIME' => 1569244141,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/change-password HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/change-password"

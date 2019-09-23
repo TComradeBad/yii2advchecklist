@@ -36,30 +36,37 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-
     $auth = Yii::$app->authManager;
-
-
     if (
         in_array("super_admin", array_keys($auth->getAssignments(Yii::$app->user->id)), true) or
         in_array("admin", array_keys($auth->getAssignments(Yii::$app->user->id)), true) or
         in_array("moderator", array_keys($auth->getAssignments(Yii::$app->user->id)), true)
     ) {
-        $menuItems[] = ['label' => 'Admin', 'url' => ['/admin/index']];
+        $menuItems[] = ['label' => 'Users', 'url' => ['/admin/index']];
     }
+    $menuItems [] = ['label' => 'CheckLists', 'url' => ['/site/index']];
+
+
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItems[] = [
+            "label" => "My profile",
+            "items" => [
+                ["label" => "Profile", "url" => ["/user/profile"]],
+                ["label" => "My CheckLists", "url" => ["/user/my-cl"]],
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            ]
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

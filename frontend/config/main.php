@@ -8,8 +8,8 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    "name" => "Admin page",
-    "homeUrl"=>"/admin",
+    "name" => "CHECKLISTS",
+    "homeUrl"=>"/checklists",
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
