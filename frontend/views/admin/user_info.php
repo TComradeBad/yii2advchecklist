@@ -17,10 +17,9 @@ use yii\web\View;
 ?>
 <?
 $this->registerJs("$('button.btnact') . click(function () { $('#modal') . modal('show'). find('#modalContent'). load($(this) . attr('value'));});", View::POS_READY);
-?>
-<? Modal::begin([
+Modal::begin([
     "id" => "modal",
-    "size"=>Modal::SIZE_LARGE,
+    "size" => Modal::SIZE_LARGE,
 ]);
 echo "<div id='modalContent'></div>";
 Modal::end();
@@ -42,17 +41,18 @@ Modal::end();
 </table>
 
 
-<div class="p-3 mb-2 bg-info text-white text-center"><h3>CheckLists (total <?=count($user->checkLists)?>)</h3></div><br>
+<div class="p-3 mb-2 bg-info text-white text-center"><h3>CheckLists (total <?= count($user->checkLists) ?>)</h3></div>
+<br>
 <?= GridView::widget([
     "dataProvider" => $dataProvider,
     "columns" => [
         ["class" => SerialColumn::class],
         [
             "label" => "view",
-            "format"=>"raw",
+            "format" => "raw",
             "value" => function ($cl) {
                 return \yii\bootstrap\Html::button("view", [
-                    "value" =>Url::to(["view-cl-info", "id" => $cl->id]),
+                    "value" => Url::to(["view-cl-info", "id" => $cl->id]),
                     "class" => "btnact"
                 ]);
             }

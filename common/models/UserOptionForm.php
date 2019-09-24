@@ -30,12 +30,22 @@ class UserOptionForm extends Model
     public function rules()
     {
         return [
-            [["new_password","repeat_password"],"string","min"=>8],
+            [["new_password", "repeat_password"], "string", "min" => 8],
             [["new_username"], "required", "on" => self::SCENARIO_CHANGE_USERNAME],
             ["new_username", "validateUsername", "on" => self::SCENARIO_CHANGE_USERNAME],
             [["old_password", "repeat_password", "new_password"], "required", "on" => self::SCENARIO_CHANGE_PASSWORD],
             ["old_password", "validatePassword"],
-            ["new_password", "compare", "compareAttribute" => "repeat_password", "message" => "passwords dont match", "on" => self::SCENARIO_CHANGE_PASSWORD],
+            ["repeat_password", "compare", "compareAttribute" => "new_password", "message" => "passwords dont match", "on" => self::SCENARIO_CHANGE_PASSWORD],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            "old_password" => "Your password",
+            "new_password" => "Your new password",
+            "repeat_password" => "Type one more time",
+            "new_username" => "Choose new username"
         ];
     }
 
@@ -55,28 +65,27 @@ class UserOptionForm extends Model
             $user = \Yii::$app->user->identity;
             $raw = User::findAll(["username" => $this->new_username]);
             if (!$user || !empty($raw)) {
-                $this->addError("This username already exist!");
+                $this->addError($attribute, "This username already exist!");
             }
         }
     }
 
-    /**
-     * @var $user User
-     */
+
     public function changePassword()
     {
+        /* @var $user User */
         $user = \Yii::$app->user->identity;
         $user->password = $this->new_password;
         $user->update();
     }
 
-    /**
-     * @var $user User
-     */
+
+
     public function changeUsername()
     {
+        /* @var $user User */
         $user = \Yii::$app->user->identity;
-        $user->password = $this->new_username;
+        $user->username = $this->new_username;
         $user->update();
     }
 

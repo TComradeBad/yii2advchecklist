@@ -5559,3 +5559,610 @@ $_SERVER = [
     'argv' => [],
     'argc' => 0,
 ]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/change-password HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/change-password"
+2019/09/24 11:37:59 [error] 6#6: *51 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 91. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\UnknownPropertyException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\UnknownPropertyException))
+#4 {main}
+Previous exception:
+yii\base\UnknownPropertyException: Getting unknown property: common\models\CheckList::username in /app/vendor/yiisoft/yii2/base/Component.php:154
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/db/BaseActiveRecord.php(298): yii\base\Component->__get('username')
+#1 /app/vendor/yiisoft/yii2/helpers/BaseArrayHelper.php(209): yii\db\BaseActiveRecord->__get('username')
+#2 /app/vendor/yiisoft/yii2/grid/DataColumn.php(232): yii\helpers\BaseArrayHelper::getValue(Object(common\models\CheckList), 'username')
+#3 /app/vendor/yiisoft/yii2/grid/DataColumn.php(244): yii\grid\DataColumn->getDataCellValue(Object(common\models\CheckList), 1, 0)
+#4 /app/vendor/yiisoft/yii2/grid/Column.php(111): yii\grid\DataColumn->renderDataCellContent(Object(common\models\CheckList), 1, 0)
+#5 /app/vendor/yiisoft/yii2/grid/GridView.php(525): yii\grid\Column->renderDataCell(Object(common\models\CheckList), 1, 0)
+#6 /app/vendor/yiisoft/yii2/grid/GridView.php(494): yii\grid\GridView->renderTableRow(Object(common\models\CheckList), 1, 0)
+#7 /app/vendor/yiisoft/yii2/grid/GridView.php(358): yii\grid\GridView->renderTableBody()
+#8 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(160): yii\grid\GridView->renderItems()
+#9 /app/vendor/yiisoft/yii2/grid/GridView.php(326): yii\widgets\BaseListView->renderSection('{items}')
+#10 /app/vendor/
+2019/09/24 11:37:59 [error] 6#6: *51 FastCGI sent in stderr: "d\controllers\UserController))
+#19 /app/vendor/yiisoft/yii2/base/Controller.php(386): yii\base\View->render('checklists', Array, Object(frontend\controllers\UserController))
+#20 /app/frontend/controllers/UserController.php(98): yii\base\Controller->render('checklists', Array)
+#21 [internal function]: frontend\controllers\UserController->actionChecklists()
+#22 /app/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#23 /app/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#24 /app/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('checklists', Array)
+#25 /app/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('user/checklists', Array)
+#26 /app/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#27 /app/frontend/web/index.php(17): yii\base\Application->run()
+#28 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c',
+    'PWD' => '/var/www/html',
+    'PHP_SHA256' => '4007f24a39822bef2805b75c625551d30be9eeed329d52eb0838fa5c1b91c1fd',
+2019/09/24 11:38:30 [error] 6#6: *51 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 91. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\InvalidConfigException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\InvalidConfigException))
+#4 {main}
+Previous exception:
+yii\base\InvalidConfigException: The "query" property must be an instance of a class that implements the QueryInterface e.g. yii\db\Query or its subclasses. in /app/vendor/yiisoft/yii2/data/ActiveDataProvider.php:102
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(101): yii\data\ActiveDataProvider->prepareModels()
+#1 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(114): yii\data\BaseDataProvider->prepare()
+#2 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(155): yii\data\BaseDataProvider->getModels()
+#3 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(190): yii\data\BaseDataProvider->getCount()
+#4 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(158): yii\widgets\BaseListView->renderSummary()
+#5 /app/vendor/yiisoft/yii2/grid/GridView.php(326): yii\widgets\BaseListView->renderSection('{summary}')
+#6 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(135): yii\grid\GridView->renderSection('{summary}')
+#7 [internal function]: yii\widgets\BaseListView->yii\widgets\{closure}(Array)
+#8 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(138): preg_replace_callback('/{\\w+}/', Object(Closure), '{summary}\n{item...')
+#9 /app/vendor/yiisoft/yii2/grid/GridView.php(301): yii\widgets\BaseListView->run()
+#10 /app/vendor/yiisoft/yii2/base/Widget.php(140): yii\grid\GridView->run()
+#
+2019/09/24 11:38:30 [error] 6#6: *51 FastCGI sent in stderr: "app/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('user/checklists', Array)
+#22 /app/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#23 /app/frontend/web/index.php(17): yii\base\Application->run()
+#24 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		pkg-config 		re2c',
+    'PWD' => '/var/www/html',
+    'PHP_SHA256' => '4007f24a39822bef2805b75c625551d30be9eeed329d52eb0838fa5c1b91c1fd',
+    'USER' => 'www-data',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_COOKIE' => 'XDEBUG_TRACE=XDEBUG_ECLIPSE; _identity-frontend=379c04e3845becb36ca6cdaaf866625416901051b8dec747e327455ea60c3aaca%3A2%3A%7Bi%3A0%3Bs%3A18%3A%22_identity-frontend%22%3Bi%3A1%3Bs%3A46%3A%22%5B4%2C%22SVkmxqY7DkVMWcWeZNuQ7RkDL-YAt1GV%22%2C2592000%5D%22%3B%7D; advanced-frontend=57bf3289c457bdaed1258f604558a5ea; _csrf-frontend=fe3e56605ba49988623cf2a9e5705bc8fd391da133c4b9940665d5bae7fb53b9a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22X-YVZAS5HIJeHboIZIawojNUdaORZxej%22%3B%7D',
+    'HTTP_CONNECTIO
+2019/09/24 11:50:06 [error] 6#6: *78 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 92. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\InvalidConfigException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\InvalidConfigException))
+#4 {main}
+Previous exception:
+yii\base\InvalidConfigException: The "query" property must be an instance of a class that implements the QueryInterface e.g. yii\db\Query or its subclasses. in /app/vendor/yiisoft/yii2/data/ActiveDataProvider.php:102
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(101): yii\data\ActiveDataProvider->prepareModels()
+#1 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(114): yii\data\BaseDataProvider->prepare()
+#2 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(155): yii\data\BaseDataProvider->getModels()
+#3 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(190): yii\data\BaseDataProvider->getCount()
+#4 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(158): yii\widgets\BaseListView->renderSummary()
+#5 /app/vendor/yiisoft/yii2/grid/GridView.php(326): yii\widgets\BaseListView->renderSection('{summary}')
+#6 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(135): yii\grid\GridView->renderSection('{summary}')
+#7 [internal function]: yii\widgets\BaseListView->yii\widgets\{closure}(Array)
+#8 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(138): preg_replace_callback('/{\\w+}/', Object(Closure), '{summary}\n{item...')
+#9 /app/vendor/yiisoft/yii2/grid/GridView.php(301): yii\widgets\BaseListView->run()
+#10 /app/vendor/yiisoft/yii2/base/Widget.php(140): yii\grid\GridView->run()
+#
+2019/09/24 11:50:06 [error] 6#6: *78 FastCGI sent in stderr: "/vendor/yiisoft/yii2/base/View.php(348): require('/app/frontend/v...')
+#13 /app/vendor/yiisoft/yii2/base/View.php(257): yii\base\View->renderPhpFile('/app/frontend/v...', Array)
+#14 /app/vendor/yiisoft/yii2/base/View.php(156): yii\base\View->renderFile('/app/frontend/v...', Array, Object(frontend\controllers\UserController))
+#15 /app/vendor/yiisoft/yii2/base/Controller.php(386): yii\base\View->render('checklists', Array, Object(frontend\controllers\UserController))
+#16 /app/frontend/controllers/UserController.php(99): yii\base\Controller->render('checklists', Array)
+#17 [internal function]: frontend\controllers\UserController->actionChecklists()
+#18 /app/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#19 /app/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#20 /app/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('checklists', Array)
+#21 /app/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('user/checklists', Array)
+#22 /app/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#23 /app/frontend/web/index.php(17): yii\base\Application->run()
+#24 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+
+2019/09/24 11:50:06 [error] 6#6: *78 FastCGI sent in stderr: "php',
+    'REQUEST_TIME_FLOAT' => 1569325806.706123,
+    'REQUEST_TIME' => 1569325806,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "GET /user/checklists HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/my-cl"
+2019/09/24 11:51:04 [error] 6#6: *78 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 92. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "GET /user/checklists HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/my-cl"
+2019/09/24 11:51:04 [error] 6#6: *78 FastCGI sent in stderr: ".php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\InvalidConfigException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\InvalidConfigException))
+#4 {main}
+Previous exception:
+yii\base\InvalidConfigException: The "query" property must be an instance of a class that implements the QueryInterface e.g. yii\db\Query or its subclasses. in /app/vendor/yiisoft/yii2/data/ActiveDataProvider.php:102
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(101): yii\data\ActiveDataProvider->prepareModels()
+#1 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(114): yii\data\BaseDataProvider->prepare()
+#2 /app/vendor/yiisoft/yii2/data/BaseDataProvider.php(155): yii\data\BaseDataProvider->getModels()
+#3 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(190): yii\data\BaseDataProvider->getCount()
+#4 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(158): yii\widgets\BaseListView->renderSummary()
+#5 /app/vendor/yiisoft/yii2/grid/GridView.php(326): yii\widgets\BaseListView->renderSection('{summary}')
+#6 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(135): yii\grid\GridView->renderSection('{summary}')
+#7 [internal function]: yii\widgets\BaseListView->yii\widgets\{closure}(Array)
+#8 /app/vendor/yiisoft/yii2/widgets/BaseListView.php(138): preg_replace_callback('/{\\w+}/', Object(Closure), '{summary}\n{item...')
+#9 /app/vendor/yiisoft/yii2/grid/GridView.php(301): yii\widgets\BaseListView->run()
+#10 /app/vendor/yiisoft/yii2/base/Widget.php(140): yii\grid\GridView->run()
+#11 /app/frontend/views/user/checklists.php(25): yii\base\Widget::widget(Array)
+#12 /app/vendor/yiisoft/yii2/base/View.php(348): require('/app/frontend/v...')
+#13 /app/vendor/yiisoft/yii2/base/View.php(257): yii\base\View->renderPhpFile('/app/frontend/v...', Array)
+#14 /app/vendor/yiisoft/yii2/base/View.php(156): yii\base\View->renderFile('/app/frontend/v...', Array,
+2019/09/24 11:51:04 [error] 6#6: *78 FastCGI sent in stderr: ",
+    'HTTP_COOKIE' => 'XDEBUG_TRACE=XDEBUG_ECLIPSE; _identity-frontend=379c04e3845becb36ca6cdaaf866625416901051b8dec747e327455ea60c3aaca%3A2%3A%7Bi%3A0%3Bs%3A18%3A%22_identity-frontend%22%3Bi%3A1%3Bs%3A46%3A%22%5B4%2C%22SVkmxqY7DkVMWcWeZNuQ7RkDL-YAt1GV%22%2C2592000%5D%22%3B%7D; advanced-frontend=57bf3289c457bdaed1258f604558a5ea; _csrf-frontend=fe3e56605ba49988623cf2a9e5705bc8fd391da133c4b9940665d5bae7fb53b9a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22X-YVZAS5HIJeHboIZIawojNUdaORZxej%22%3B%7D',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_REFERER' => 'http://frontend.local/user/my-cl',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '52852',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklists',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '',
+    'CONTENT_TYPE' => '',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569325864.150534,
+    'REQUEST_TIME' => 1569325864,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "GET /user/checklists HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend
+2019/09/24 15:06:43 [error] 6#6: *72 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-d
+2019/09/24 15:06:43 [error] 6#6: *72 FastCGI sent in stderr: "%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22800EFgiffeWfCxuWAHioNoGclCVpot7L%22%3B%7D',
+    'HTTP_REFERER' => 'http://frontend.local/user/checklist-form',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '113',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '49022',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklist-form',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '113',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569337603.275365,
+    'REQUEST_TIME' => 1569337603,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/checklist-form HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/checklist-form"
+2019/09/24 15:06:50 [error] 6#6: *72 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-d
+2019/09/24 15:06:50 [error] 6#6: *72 FastCGI sent in stderr: "0b52c862a9e03bc12e8c24b0a354570defba7454a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22800EFgiffeWfCxuWAHioNoGclCVpot7L%22%3B%7D',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '113',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'HTTP_REFERER' => 'http://frontend.local/user/checklist-form',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '49022',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklist-form',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '113',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569337610.383357,
+    'REQUEST_TIME' => 1569337610,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/checklist-form HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/checklist-form"
+2019/09/24 15:57:05 [error] 6#6: *162 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-
+2019/09/24 15:57:05 [error] 6#6: *162 FastCGI sent in stderr: ".local/user/checklist-form',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '113',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '49718',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklist-form',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '113',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569340625.292758,
+    'REQUEST_TIME' => 1569340625,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/checklist-form HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/checklist-form"
+2019/09/24 16:02:35 [error] 6#6: *236 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 148. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-
+2019/09/24 16:02:35 [error] 6#6: *236 FastCGI sent in stderr: "',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '50028',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklist-form',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '',
+    'CONTENT_TYPE' => '',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569340955.765956,
+    'REQUEST_TIME' => 1569340955,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "GET /user/checklist-form HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local"
+2019/09/24 16:04:07 [error] 6#6: *236 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 154. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 154. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-
+2019/09/24 16:04:07 [error] 6#6: *236 FastCGI sent in stderr: ".local/user/my-cl',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '150',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '50028',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklist-form',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '150',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569341046.974096,
+    'REQUEST_TIME' => 1569341046,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/checklist-form HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/my-cl"
+2019/09/24 16:07:27 [error] 6#6: *271 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 154. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/frontend/controllers/UserController.php on line 154. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-
+2019/09/24 16:07:27 [error] 6#6: *271 FastCGI sent in stderr: ".local/user/my-cl',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CONTENT_LENGTH' => '134',
+    'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '50172',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklist-form',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '134',
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+    'REQUEST_METHOD' => 'POST',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1569341247.65099,
+    'REQUEST_TIME' => 1569341247,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/checklist-form HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/my-cl"

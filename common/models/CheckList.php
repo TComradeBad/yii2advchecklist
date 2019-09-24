@@ -96,4 +96,20 @@ class CheckList extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
+
+    public function saveItems($data)
+    {
+        if (!empty($data)) {
+            foreach ($data as $item) {
+                if ($item != "") {
+                    $cl_item = new CheckListItem();
+                    $cl_item->name = $item;
+                    $cl_item->cl_id = $this->id;
+                    $cl_item->save();
+                }
+            }
+        }
+    }
+
 }

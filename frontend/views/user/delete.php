@@ -8,6 +8,7 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 use yii\web\User;
 
 ?>
@@ -17,16 +18,14 @@ use yii\web\User;
 
 
 <?php
-if (isset($error)) {
-    echo "<h1>$error</h1>";
-} elseif (isset($del_id)) {
-    echo Html::beginForm(["delete", "upd_id" => $del_id]) .
+
+    echo Html::beginForm(["delete-cl","del_id"=>$del_id]) .
         "<h1>Are you sure about that?</h1>" .
         "<h2><br></h2>" .
         Html::submitButton("Delete") .
         Html::endForm();
 
-}
+
 ?>
 
 <h2><br></h2>

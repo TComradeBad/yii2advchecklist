@@ -22,9 +22,7 @@ Modal::begin([
 echo "<div id='modalContent'></div>";
 Modal::end();
 ?>
-<h2>
-    <button class="btnact btn-success" value="<?= Url::to('/user/checklist-form') ?>">Add checklist</button>
-</h2>
+
 <?= GridView::widget([
     "dataProvider" => $dataProvider,
     "columns" => [
@@ -50,25 +48,11 @@ Modal::end();
             "class" => ActionColumn::class,
             "template" => "{view}",
             "buttons" => [
-                "view" => function ($url, $cl) {
+                "view" => function ($usl, $cl) {
                     return \yii\bootstrap\Html::button("view", [
-                        "value" => Url::to(["user/my-cl", "id" => $cl->id]),
+                        "value" => Url::to(["user/checklists", "id" => $cl->id]),
                         "class" => "btnact"
                     ]);
-                }
-
-            ]
-        ],
-        [
-            "class" => ActionColumn::class,
-            "template" => "{delete}",
-            "buttons" => [
-                "delete" => function ($url, $cl) {
-                    return \yii\bootstrap\Html::button("delete", [
-                        "value" => Url::to(["user/delete-cl", "id" => $cl->id]),
-                        "class" => "btnact"
-                    ]);
-
                 }
 
             ]

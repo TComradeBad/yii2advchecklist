@@ -44,7 +44,7 @@ AppAsset::register($this);
     ) {
         $menuItems[] = ['label' => 'Users', 'url' => ['/admin/index']];
     }
-    $menuItems [] = ['label' => 'CheckLists', 'url' => ['/site/index']];
+    $menuItems [] = ['label' => 'CheckLists', 'url' => ['/user/checklists']];
 
 
 
