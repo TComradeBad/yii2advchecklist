@@ -32,6 +32,17 @@ Modal::end();
             "attribute" => "name"
         ],
         [
+            "label" => "done",
+            "format"=>"raw",
+            "value" => function ($cl) {
+                if ($cl->done) {
+                    return "<div class='text-success'>Done</div>";
+                } else {
+                    return "<div class='text-danger'>In Process</div>";
+                }
+            }
+        ],
+        [
             "label" => "owner",
             "value" => function ($model) {
                 return $model->user->username;

@@ -15,7 +15,7 @@ use common\models\User;
 <script type='text/javascript'>
     var i = 0;
     var max = <?=$user->user_cl_item_count?>;
-
+    document.getElementsByClassName('modal-header')[0].innerHTML = '<h3>Add checklist</h3>';
     function addFields() {
         b = i + 1;
         if (b <= max) {
@@ -42,7 +42,7 @@ use common\models\User;
 
     }
 </script>
-<?= Html::beginForm([Url::to("/user/checklist-form")]) ?>
+<?= Html::beginForm([Url::to("/user/checklist-form")],"post",["id"=>"create_form"]) ?>
 <div class="p-3 mb-2 bg-info text-warning text-center"><h3>Checklist name</h3></div>
 <?=Html::input("text","name")?>
 <div class="p-3 mb-2 bg-info text-warning text-center"><h3>Checklist items</h3></div>

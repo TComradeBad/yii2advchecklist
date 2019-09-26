@@ -12,7 +12,7 @@ use yii\helpers\Html;
 /* @var $dataProvider */
 ?>
 
-<div class="p-3 mb-2 bg-info text-white text-center"><h3><?=$cl_name?></h3></div><br>
+<div class="p-3 mb-2 bg-info text-white text-center"><h3><?= $cl_name ?></h3></div><br>
 <?= GridView::widget([
     "dataProvider" => $dataProvider,
     "columns" => [
@@ -23,7 +23,14 @@ use yii\helpers\Html;
         ],
         [
             "label" => "Complete",
-            "attribute" => "done"
+            "format" => "raw",
+            "value" => function ($cl_items) {
+                if ($cl_items->done){
+                    return "<div class='text-success'>Done</div>";
+                }else{
+                    return "<div class='text-danger'>In Process</div>";
+                }
+            }
         ],
     ]
 ])

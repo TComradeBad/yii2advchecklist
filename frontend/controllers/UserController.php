@@ -4,12 +4,15 @@
 namespace frontend\controllers;
 
 
+use common\classes\ConsoleLog;
 use common\models\CheckList;
 use common\models\CheckListItem;
 use common\models\User;
 use common\models\UserOptionForm;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\Exception;
+use yii\helpers\Console;
 use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
@@ -17,7 +20,7 @@ use yii\filters\AccessControl;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     public function behaviors()
     {
@@ -34,12 +37,19 @@ class UserController extends Controller
         ];
     }
 
-
+    /**
+     * Profile page of user
+     * @return string
+     */
     public function actionProfile()
     {
         return $this->render("profile", ["user" => Yii::$app->user->identity]);
     }
 
+    /**
+     * Form actions for changing user's password
+     * @return array|string|Response
+     */
     public function actionChangePassword()
     {
         $model = new UserOptionForm();
@@ -61,6 +71,10 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Form actions for changing user's name
+     * @return array|string|Response
+     */
     public function actionChangeName()
     {
         $this->layout = false;
@@ -82,6 +96,11 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * View page of all checklists
+     * @param null $id
+     * @return string
+     */
     public function actionChecklists($id = null)
     {
         $layout = $this->layout;
@@ -111,9 +130,14 @@ class UserController extends Controller
         return $this->render("checklists", ["dataProvider" => $dataProvider]);
     }
 
+    /**
+     * @param null $id
+     * @return string
+     */
     public function actionMyCl($id = null)
     {
         $layout = $this->layout;
+        $data = Yii::$app->request->post();
         $query = CheckList::find()->where(["user_id" => Yii::$app->user->id]);
         $dataProvider = new ActiveDataProvider([
             "query" => $query,
@@ -134,12 +158,17 @@ class UserController extends Controller
                 ]
             ]);
             $this->layout = false;
-            return $this->render("checklist_items", ["dataProvider" => $dataProviderItems, "cl_name" => $cl->name]);
+            return $this->render("my_checklist_items", ["dataProvider" => $dataProviderItems, "cl" => $cl]);
         }
+
         $this->layout = $layout;
         return $this->render("my_cl", ["dataProvider" => $dataProvider]);
     }
 
+    /**
+     * Form for creating checklist
+     * @return string|Response
+     */
     public function actionChecklistForm()
     {
         $layout = $this->layout;
@@ -148,7 +177,7 @@ class UserController extends Controller
             if ($data["name"] != "") {
                 $cl = new CheckList();
                 $cl->user_id = Yii::$app->user->id;
-                $cl->name =$data["name"];
+                $cl->name = $data["name"];
                 $cl->save();
                 $cl->saveItems($data["items"]);
             }
@@ -159,14 +188,42 @@ class UserController extends Controller
         return $this->render("checklist_form", ["user" => $user]);
     }
 
-    public function actionDeleteCl($id = null,$del_id = null)
+    /**
+     * Form for submit deleting checklist
+     * @param null $id
+     * @param null $del_id
+     * @return string|Response
+     */
+    public function actionDeleteCl($id = null, $del_id = null)
     {
         $this->layout = false;
         if (isset($del_id)) {
             CheckList::deleteAll(["id" => $del_id]);
-            return $this->redirect(\Yii::$app->request->referrer);
         }
-        return $this->render("delete",["del_id"=>$id]);
+        return $this->render("delete", ["del_id" => $id]);
+
+    }
+
+    /**
+     * Update CheckList
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionMyClUpd()
+    {
+        $data = Yii::$app->request->post();
+        $cl_item = CheckListItem::findOne($data["item_id"]);
+        $cl_item->done = ($data["value"] =="true") ? "1":"0";
+        $cl_item->update();
+        $raw = CheckListItem::findone(["done"=>"0"]);
+        $cl = CheckList::findOne(["id"=>$data["cl_id"]]);
+        if(!isset($raw)){
+            $cl->done = "1";
+        }else {
+            $cl->done = "0";
+        }
+        $cl->update();
+        return $this->redirect(null,200);
 
     }
 }

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\classes\ConsoleLog;
 use common\models\CheckListItem;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -109,6 +110,28 @@ class CheckList extends \yii\db\ActiveRecord
                     $cl_item->save();
                 }
             }
+        }
+    }
+
+    public function updateClItemsDone($data)
+    {
+        $tds = 1;
+        foreach ($this->checklistItems as $item) {
+            if (isset($data[$item->id])) {
+                $item->done = 1;
+                $item->update();
+            } else {
+                $item->done = 0;
+                $item->update();
+            }
+            $tds *= $item->done;
+        }
+        if ($tds) {
+            $this->done = 1;
+            $this->update();
+        }else{
+            $this->done = 0;
+            $this->update();
         }
     }
 
