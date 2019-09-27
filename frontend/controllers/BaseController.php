@@ -11,6 +11,12 @@ class BaseController extends Controller
 {
 
 
+    /**
+     * Redirecting for banned users
+     * @param $action
+     * @return bool|void
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function beforeAction($action)
     {
         if (\Yii::$app->user->identity->banned

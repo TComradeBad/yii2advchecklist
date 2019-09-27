@@ -62,6 +62,7 @@ class AdminController extends BaseController
 
     /**
      * Admin page
+     * @return string
      */
     public function actionIndex()
     {
@@ -76,6 +77,10 @@ class AdminController extends BaseController
 
     /**
      * Ban users
+     * @param null $id
+     * @return \yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionBan($id = null)
     {
@@ -93,6 +98,11 @@ class AdminController extends BaseController
 
     /**
      * Delete users
+     * @param null $id
+     * @param null $upd_id
+     * @return string|\yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id = null, $upd_id = null)
     {
@@ -126,6 +136,10 @@ class AdminController extends BaseController
 
     /**
      * Manage user's roles
+     * @param null $id
+     * @param null $upd_id
+     * @return string|\yii\web\Response
+     * @throws \Exception
      */
     public function actionSetRoles($id = null, $upd_id = null)
     {
@@ -156,6 +170,11 @@ class AdminController extends BaseController
 
     /**
      * Set checklist and items count
+     * @param null $id
+     * @param null $upd_id
+     * @return string|\yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionSetCount($id = null, $upd_id = null)
     {
@@ -186,6 +205,8 @@ class AdminController extends BaseController
 
     /**
      * View Users CheckList
+     * @param null $id
+     * @return string|\yii\web\Response
      */
     public function actionViewUserInfo($id = null)
     {
@@ -202,6 +223,10 @@ class AdminController extends BaseController
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
+    /**
+     * @param null $id
+     * @return string|\yii\web\Response
+     */
     public function actionViewClInfo($id = null)
     {
         $this->layout = false;

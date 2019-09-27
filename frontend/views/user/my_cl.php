@@ -20,12 +20,35 @@ Modal::begin([
 echo "<div id='modalContent'></div>";
 Modal::end();
 ?>
-<h2>
-    <button class="btnact btn-success" value="<?= Url::to('/user/checklist-form') ?>">Add checklist</button>
-</h2>
+<div class="row">
+    <div id="create_button_div" class="col-md-4" style="display: inline">
+        <h2 style="display: inline">
+            <button class="btnact btn-success" value="<?= Url::to('/user/checklist-form') ?>">Add checklist</button>
+        </h2>
+
+    </div>
+    <div id="search_div" class="col-md-7 text-right form-group " style="display: inline">
+        <script>
+            function searchAction() {
+                $.pjax.reload(
+                    {
+                        container: "#grid_view",
+                        timeout: false,
+                        url: "/user/my-cl?search="+$("#search_cl_input").val(),
+                        type:"POST"
+                    }
+                );
+
+            }
+        </script>
+            <input type="text" id="search_cl_input" style="display: inline" class="form-text">
+            <button type="button" class="btn-success form-text" onclick="searchAction()">Search</button>
+
+    </div>
+</div>
+<h6><br></h6>
+
 <div id="pjax_inside">
-
-
     <? Pjax::begin(["id" => "grid_view"]) ?>
     <? $this->registerJs("$('button.btnact') . click(function () { $('#modal') . modal('show'). find('#modalContent'). load($(this) . attr('value'));});", View::POS_READY); ?>
     <?= GridView::widget([

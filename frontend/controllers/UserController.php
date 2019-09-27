@@ -81,6 +81,7 @@ class UserController extends BaseController
         $model = new UserOptionForm();
         $this->layout = false;
         $model->setScenario($model::SCENARIO_CHANGE_USERNAME);
+
         //Ajax validation
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -99,9 +100,10 @@ class UserController extends BaseController
     /**
      * View page of all checklists
      * @param null $id
+     * @param null $search
      * @return string
      */
-    public function actionChecklists($id = null)
+    public function actionChecklists($id = null, $search = null)
     {
         $layout = $this->layout;
         $query = CheckList::find();
@@ -111,6 +113,7 @@ class UserController extends BaseController
                 "pageSize" => 10
             ]
         ]);
+        ///Get Checklist and its items by id
         if (isset($id)) {
             $query_items = CheckListItem::find()->where(["cl_id" => $id]);
             $cl = CheckList::findOne(["id" => $id]);
@@ -126,18 +129,32 @@ class UserController extends BaseController
             $this->layout = false;
             return $this->render("checklist_items", ["dataProvider" => $dataProviderItems, "cl_name" => $cl->name]);
         }
+        ///Search By Word
+        if (isset($search)) {
+            $query = CheckList::find()
+                ->leftJoin(User::tableName(), CheckList::tableName() . ".user_id" . "=" . User::tableName() . ".id")
+                ->filterWhere(["like", "name", $search])
+                ->orfilterWhere(["like", User::tableName() . ".username", $search]);
+            $dataProvider = new ActiveDataProvider([
+                "query" => $query,
+                "pagination" => [
+                    "pageSize" => 10]]);
+
+            return $this->render("checklists", ["dataProvider" => $dataProvider]);
+        }
+
         $this->layout = $layout;
         return $this->render("checklists", ["dataProvider" => $dataProvider]);
     }
 
     /**
      * @param null $id
+     * @param null $search
      * @return string
      */
-    public function actionMyCl($id = null)
+    public function actionMyCl($id = null, $search = null)
     {
-        $layout = $this->layout;
-        $data = Yii::$app->request->post();
+        $layout = $this->layout;;
         $query = CheckList::find()->where(["user_id" => Yii::$app->user->id]);
         $dataProvider = new ActiveDataProvider([
             "query" => $query,
@@ -145,6 +162,7 @@ class UserController extends BaseController
                 "pageSize" => 10
             ]
         ]);
+        ///Get auth user's Checklists and items
         if (isset($id)) {
             $query_items = CheckListItem::find()->where(["cl_id" => $id]);
             $cl = CheckList::findOne(["id" => $id]);
@@ -161,6 +179,20 @@ class UserController extends BaseController
             return $this->render("my_checklist_items", ["dataProvider" => $dataProviderItems, "cl" => $cl]);
         }
 
+        ///Search Auth checklists by word
+        if (isset($search)) {
+            $query = CheckList::find()
+                ->leftJoin(User::tableName(), CheckList::tableName() . ".user_id" . "=" . User::tableName() . ".id")
+                ->filterWhere(["like", "name", $search])
+                ->orfilterWhere(["like", User::tableName() . ".username", $search])
+                ->andFilterWhere(["user_id" => Yii::$app->user->id]);
+            $dataProvider = new ActiveDataProvider([
+                "query" => $query,
+                "pagination" => [
+                    "pageSize" => 10]]);
+
+            return $this->render("my_cl", ["dataProvider" => $dataProvider]);
+        }
         $this->layout = $layout;
         return $this->render("my_cl", ["dataProvider" => $dataProvider]);
     }
@@ -212,18 +244,27 @@ class UserController extends BaseController
     public function actionMyClUpd()
     {
         $data = Yii::$app->request->post();
-        $cl_item = CheckListItem::findOne($data["item_id"]);
-        $cl_item->done = ($data["value"] =="true") ? "1":"0";
-        $cl_item->update();
-        $raw = CheckListItem::findone(["done"=>"0"]);
-        $cl = CheckList::findOne(["id"=>$data["cl_id"]]);
-        if(!isset($raw)){
-            $cl->done = "1";
-        }else {
-            $cl->done = "0";
+        if (!empty($data)) {
+            $cl_item = CheckListItem::findOne($data["item_id"]);
+            $cl_item->done = ($data["value"] == "true") ? "1" : "0";
+            $cl_item->update();
+            $raw = CheckListItem::findone(["done" => "0"]);
+            $cl = CheckList::findOne(["id" => $data["cl_id"]]);
+            if (!isset($raw)) {
+                if ($cl->done != "1") {
+                    $cl->done = "1";
+                    $cl->update();
+                }
+            } else {
+                if ($cl->done != "0") {
+                    $cl->done = "0";
+                    $cl->update();
+                }
+            }
+            return $this->redirect(null, 200);
         }
-        $cl->update();
-        return $this->redirect(null,200);
+        return $this->redirect(null, 400);
+
 
     }
 }

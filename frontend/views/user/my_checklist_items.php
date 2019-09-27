@@ -18,8 +18,11 @@ use yii\widgets\Pjax;
     document.getElementsByClassName('modal-header')[0].innerHTML = '<h3>View Checklist</h3>';
     let formData = new FormData();
     let xrf = new XMLHttpRequest();
-    xrf.onreadystatechange = function () {
-        $.pjax.reload({container: "#grid_view", timeout: false});
+    xrf.onload = function () {
+        if (xrf.status == "200") {
+            $.pjax.reload({container: "#grid_view", timeout: false});
+        }
+
     };
 
     function submitChange(event, item_id) {

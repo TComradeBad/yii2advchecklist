@@ -11,10 +11,7 @@ use yii\grid\GridView;
 use yii\grid\SerialColumn;
 use yii\helpers\Url;
 use yii\web\View;
-
-?>
-<?
-$this->registerJs("$('button.btnact') . click(function () { $('#modal') . modal('show'). find('#modalContent'). load($(this) . attr('value'));});", View::POS_READY);
+use yii\widgets\Pjax;
 Modal::begin([
     "id" => "modal",
     "size" => Modal::SIZE_LARGE,
@@ -23,6 +20,29 @@ echo "<div id='modalContent'></div>";
 Modal::end();
 ?>
 
+    <div class="row">
+        <div id="search_div" class="col-md-7 text-right form-group " style="display: inline">
+            <script>
+                function searchAction() {
+                    $.pjax.reload(
+                        {
+                            container: "#grid_view",
+                            timeout: false,
+                            url: "/user/checklists?search=" + $("#search_cl_input").val(),
+                            type: "POST"
+                        }
+                    );
+                }
+            </script>
+            <input type="text" id="search_cl_input" style="display: inline" class="form-text">
+            <button type="button" class="btn-success form-text" onclick="searchAction()">Search</button>
+
+        </div>
+    </div>
+    <h6><br></h6>
+<div id="pjax_inside">
+<? Pjax::begin(["id" => "grid_view"]) ?>
+<?$this->registerJs("$('button.btnact') . click(function () { $('#modal') . modal('show'). find('#modalContent'). load($(this) . attr('value'));});", View::POS_READY);?>
 <?= GridView::widget([
     "dataProvider" => $dataProvider,
     "columns" => [
@@ -33,7 +53,7 @@ Modal::end();
         ],
         [
             "label" => "done",
-            "format"=>"raw",
+            "format" => "raw",
             "value" => function ($cl) {
                 if ($cl->done) {
                     return "<div class='text-success'>Done</div>";
@@ -72,3 +92,6 @@ Modal::end();
 ])
 
 ?>
+<? Pjax::end() ?>
+</div>
+
