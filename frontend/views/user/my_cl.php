@@ -20,6 +20,22 @@ Modal::begin([
 echo "<div id='modalContent'></div>";
 Modal::end();
 ?>
+
+<script>
+    function searchAction() {
+        let post_data = {search: $("#search_cl_input").val()};
+        $.pjax.reload(
+            {
+                container: "#grid_view",
+                timeout: false,
+                url: "/user/my-cl?search=go",
+                type: "POST",
+                data: post_data
+            }
+        );
+    }
+</script>
+
 <div class="row">
     <div id="create_button_div" class="col-md-4" style="display: inline">
         <h2 style="display: inline">
@@ -28,21 +44,9 @@ Modal::end();
 
     </div>
     <div id="search_div" class="col-md-7 text-right form-group " style="display: inline">
-        <script>
-            function searchAction() {
-                $.pjax.reload(
-                    {
-                        container: "#grid_view",
-                        timeout: false,
-                        url: "/user/my-cl?search="+$("#search_cl_input").val(),
-                        type:"POST"
-                    }
-                );
 
-            }
-        </script>
-            <input type="text" id="search_cl_input" style="display: inline" class="form-text">
-            <button type="button" class="btn-success form-text" onclick="searchAction()">Search</button>
+        <input type="text" id="search_cl_input" style="display: inline" class="form-text">
+        <button type="button" class="btn-success form-text" onclick="searchAction()">Search</button>
 
     </div>
 </div>
@@ -53,6 +57,11 @@ Modal::end();
     <? $this->registerJs("$('button.btnact') . click(function () { $('#modal') . modal('show'). find('#modalContent'). load($(this) . attr('value'));});", View::POS_READY); ?>
     <?= GridView::widget([
         "dataProvider" => $dataProvider,
+        'rowOptions' => function($model){
+            if($model->soft_delete){
+                return ["class" => "danger"];
+            }
+        },
         "columns" => [
             ["class" => SerialColumn::class],
             [
@@ -105,9 +114,7 @@ Modal::end();
                             "value" => Url::to(["user/delete-cl", "id" => $cl->id]),
                             "class" => "btnact"
                         ]);
-
                     }
-
                 ]
             ],
         ]

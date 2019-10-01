@@ -16,7 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $user_id
  * @property int $created_at
  * @property int $updated_at
- *
+ * @property boolean soft_delete
  * @property User $user
  * @property CheckListItem[] $checklistItems
  */

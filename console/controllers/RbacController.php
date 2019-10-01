@@ -1,7 +1,9 @@
 <?php
+
 namespace console\controllers;
 
 use common\rbac\rules\AdminRule;
+use common\rbac\rules\OwnerRule;
 use yii\console\Controller;
 
 class RbacController extends Controller
@@ -14,11 +16,17 @@ class RbacController extends Controller
          * Rules
          */
         $rule = new AdminRule();
+        $owner_rule = new OwnerRule();
         $auth->add($rule);
+        $auth->add($owner_rule);
 
         /**
          * Creating Permissions
          */
+        //Is owner
+        $is_owner = $auth->createPermission("cl_owner");
+        $is_owner->ruleName = $owner_rule->name;
+        $auth->add($is_owner);
         //Manage users and admins
         $manage_users = $auth->createPermission("manage_users");
         $manage_users->ruleName = $rule->name;
@@ -48,26 +56,28 @@ class RbacController extends Controller
         //User
         $user = $auth->createRole("user");
         $auth->add($user);
+        $auth->addChild($user,$is_owner);
         //Moderator
         $moderator = $auth->createRole("moderator");
         $auth->add($moderator);
-        $auth->addChild($moderator,$ban_users);
-        $auth->addChild($moderator,$manage_cl);
-        $auth->addChild($moderator,$manage_users);
+        $auth->addChild($moderator,$user);
+        $auth->addChild($moderator, $ban_users);
+        $auth->addChild($moderator, $manage_cl);
+        $auth->addChild($moderator, $manage_users);
         //Admin
         $admin = $auth->createRole("admin");
         $auth->add($admin);
-        $auth->addChild($admin,$moderator);
-        $auth->addChild($admin,$cl_count);
-        $auth->addChild($admin,$cl_item_count);
-        ;
+        $auth->addChild($admin, $moderator);
+        $auth->addChild($admin, $cl_count);
+        $auth->addChild($admin, $cl_item_count);;
         //Super-admin
         $super_admin = $auth->createRole("super_admin");
         $auth->add($super_admin);
-        $auth->addChild($super_admin,$admin);
-        $auth->addChild($super_admin,$delete_users);
-        $auth->addChild($super_admin,$set_user_role);
+        $auth->addChild($super_admin, $admin);
+        $auth->addChild($super_admin, $delete_users);
+        $auth->addChild($super_admin, $set_user_role);
     }
+
 
     public function actionRemove()
     {

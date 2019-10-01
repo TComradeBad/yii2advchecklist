@@ -14,22 +14,30 @@ use yii\widgets\Pjax;
 /* @var $dataProvider */
 
 ?>
+
+<article
+        id="vars"
+        data-cl-id='<?= $cl->id ?>'>
+</article>
+
 <script>
     document.getElementsByClassName('modal-header')[0].innerHTML = '<h3>View Checklist</h3>';
     let formData = new FormData();
     let xrf = new XMLHttpRequest();
+    let id = document.getElementById("vars").dataset.clId;
+    ///Reload pjax on my_cl page
     xrf.onload = function () {
         if (xrf.status == "200") {
             $.pjax.reload({container: "#grid_view", timeout: false});
         }
-
     };
 
-    function submitChange(event, item_id) {
-        event.preventDefault();
 
+    function submitChange(event, item_id) {
+        let id = document.getElementById("vars").dataset.clId;
+        event.preventDefault();
         formData.set('<?=Yii::$app->request->csrfParam?>', '<?=Yii::$app->request->getCsrfToken()?>');
-        formData.set("cl_id", '<?=$cl->id?>');
+        formData.set("cl_id", id);
         formData.set("item_id", item_id);
         formData.set("value", event.target.checked);
         xrf.open("Post", "/user/my-cl-upd");
@@ -61,3 +69,9 @@ use yii\widgets\Pjax;
     ]
 ])
 ?>
+<script>
+    $(".pagination li a").click(function(){
+        $("#modalContent").load($(this).attr('href'));
+        return false;
+    });
+</script>

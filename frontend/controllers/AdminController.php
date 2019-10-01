@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\classes\ConsoleLog;
 use common\models\CheckList;
 use common\models\CheckListItem;
 use yii\base\Controller;
@@ -54,6 +55,16 @@ class AdminController extends BaseController
                         "allow" => true,
                         "actions" => ["view-cl-info"],
                         "roles" => ["admin", "moderator", "super-admin"]
+                    ],
+                    [
+                        "allow" => true,
+                        "actions" => ["soft-delete-cl"],
+                        "roles" => ["manage_users_cl"]
+                    ],
+                    [
+                        "allow" => true,
+                        "actions" => ["delete-cl"],
+                        "roles" => ["manage_users_cl"]
                     ]
                 ]
             ]
@@ -69,7 +80,7 @@ class AdminController extends BaseController
         $dataProvider = new ActiveDataProvider([
             "query" => User::find(),
             "pagination" => [
-                "pageSize" => 10
+                "pageSize" => 5
             ]
         ]);
         return $this->render('index', ["dataProvider" => $dataProvider]);
@@ -208,8 +219,10 @@ class AdminController extends BaseController
      * @param null $id
      * @return string|\yii\web\Response
      */
-    public function actionViewUserInfo($id = null)
+    public function actionViewUserInfo($id = null, $cl_id = null)
     {
+        $layout = $this->layout;
+        $this->layout = false;
         if (isset($id)) {
             $user = User::findIdentity($id);
             $dataProvider = new ActiveDataProvider([
@@ -218,34 +231,71 @@ class AdminController extends BaseController
                     "pageSize" => 10
                 ]
             ]);
+            if (isset($cl_id)) {
+                $cl = CheckList::findOne(["id" => $cl_id]);
+                $dataProvider = new ActiveDataProvider([
+                    "query" => CheckListItem::find()->where(["cl_id" => $cl_id]),
+                    "sort" => ["attributes" => [
+                        "id"
+                    ]],
+                    "pagination" => [
+                        "pageSize" => 5
+                    ]
+                ]);
+
+                return $this->renderAjax("checklist_items", ["dataProvider" => $dataProvider, "cl" => $cl,"user"=>$user]);
+
+            }
+            $this->layout = $layout;
             return $this->render("user_info", ["dataProvider" => $dataProvider, "user" => $user]);
         }
+
         return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+
+    /**
+     * Setting soft delete of checklist
+     * @return \yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionSoftDeleteCl()
+    {
+
+        $data = \Yii::$app->request->post();
+        if (!empty($data)) {
+            $cl = CheckList::findOne(["id" => $data["cl_id"]]);
+            if(\Yii::$app->user->can("manage_users", ["affected_user" => User::findOne(["id"=>$cl->user_id])])){
+                $cl->soft_delete = ($data["value"] === "true") ? "1" : "0";
+                $cl->update();
+                return $this->redirect(null, "200");
+            }
+
+        }
+        return $this->redirect(null, "400");
     }
 
     /**
+     * Delete user cl
      * @param null $id
+     * @param null $del_id
      * @return string|\yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionViewClInfo($id = null)
+    public function actionDeleteCl($id = null, $del_id = null)
     {
         $this->layout = false;
-        if (isset($id)) {
-            $cl = CheckList::findOne(["id" => $id]);
-            $dataProvider = new ActiveDataProvider([
-                "query" => CheckListItem::find()->where(["cl_id" => $id]),
-                "sort"=>["attributes"=>[
-                    "id"
-                ]],
-                "pagination" => [
-                    "pageSize" => 10
-                ]
-            ]);
-
-            return $this->render("checklist_items", ["dataProvider" => $dataProvider, "cl" => $cl]);
+        if (isset($del_id)) {
+            $cl = CheckList::findone(["id" => $del_id]);
+            if(\Yii::$app->user->can("manage_users", ["affected_user" => User::findOne(["id"=>$cl->user_id])])){
+                $cl->delete();
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+            return $this->redirect(null,400);
         }
-        return $this->redirect(\Yii::$app->request->referrer);
+        return $this->render("delete_cl", ["del_id" => $id]);
+
     }
-
-
 }

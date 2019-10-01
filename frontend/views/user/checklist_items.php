@@ -35,3 +35,9 @@ use yii\helpers\Html;
     ]
 ])
 ?>
+<script>
+    $(".pagination li a").click(function(){
+        $("#modalContent").load($(this).attr('href'));
+        return false;
+    });
+</script>
