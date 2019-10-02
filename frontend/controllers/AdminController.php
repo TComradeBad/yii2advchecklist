@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use common\classes\ConsoleLog;
 use common\models\CheckList;
 use common\models\CheckListItem;
@@ -243,7 +244,7 @@ class AdminController extends BaseController
                     ]
                 ]);
 
-                return $this->renderAjax("checklist_items", ["dataProvider" => $dataProvider, "cl" => $cl,"user"=>$user]);
+                return $this->renderAjax("checklist_items", ["dataProvider" => $dataProvider, "cl" => $cl, "user" => $user]);
 
             }
             $this->layout = $layout;
@@ -266,7 +267,8 @@ class AdminController extends BaseController
         $data = \Yii::$app->request->post();
         if (!empty($data)) {
             $cl = CheckList::findOne(["id" => $data["cl_id"]]);
-            if(\Yii::$app->user->can("manage_users", ["affected_user" => User::findOne(["id"=>$cl->user_id])])){
+            if (Yii::$app->user->can("manage_users", ["affected_user" => $cl->user]) or
+                Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
                 $cl->soft_delete = ($data["value"] === "true") ? "1" : "0";
                 $cl->update();
                 return $this->redirect(null, "200");
@@ -289,11 +291,12 @@ class AdminController extends BaseController
         $this->layout = false;
         if (isset($del_id)) {
             $cl = CheckList::findone(["id" => $del_id]);
-            if(\Yii::$app->user->can("manage_users", ["affected_user" => User::findOne(["id"=>$cl->user_id])])){
+            if (Yii::$app->user->can("manage_users", ["affected_user" => $cl->user]) or
+                Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
                 $cl->delete();
                 return $this->redirect(\Yii::$app->request->referrer);
             }
-            return $this->redirect(null,400);
+            return $this->redirect(null, 400);
         }
         return $this->render("delete_cl", ["del_id" => $id]);
 

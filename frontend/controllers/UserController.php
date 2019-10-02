@@ -209,23 +209,37 @@ class UserController extends BaseController
      * Form for creating checklist
      * @return string|Response
      */
-    public function actionChecklistForm()
+    public function actionChecklistForm($upd_id = null)
     {
         $layout = $this->layout;
         $data = Yii::$app->request->post();
         if (!empty($data)) {
             if ($data["name"] != "") {
-                $cl = new CheckList();
-                $cl->user_id = Yii::$app->user->id;
-                $cl->name = $data["name"];
-                $cl->save();
-                $cl->saveItems($data["items"]);
+                if (isset($upd_id)) {
+                    $cl = CheckList::findOne(["id"=>$upd_id]);
+                    $cl->user_id = Yii::$app->user->id;
+                    $cl->name = $data["name"];
+                    $cl->update();
+                    $cl->resetItems($data["items"]);
+                } else {
+                    $cl = new CheckList();
+                    $cl->user_id = Yii::$app->user->id;
+                    $cl->name = $data["name"];
+                    $cl->save();
+                    $cl->saveItems($data["items"]);
+                }
+
             }
+
             return $this->redirect(\Yii::$app->request->referrer);
         }
         $user = Yii::$app->user->identity;
         $this->layout = false;
+        if (isset($upd_id)) {
+            return $this->render("checklist_form", ["user" => $user, "cl" => CheckList::findOne(["id" => $upd_id])]);
+        }
         return $this->render("checklist_form", ["user" => $user]);
+
     }
 
     /**
@@ -244,6 +258,8 @@ class UserController extends BaseController
             if (Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
                 $cl->delete();
             }
+
+
             return $this->redirect(\Yii::$app->request->referrer);
         }
         return $this->render("delete", ["del_id" => $id]);

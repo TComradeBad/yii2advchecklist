@@ -93,7 +93,8 @@ Modal::end();
             "buttons" => [
                 "delete" => function ($url, $cl) use ($user) {
                     if (Yii::$app->user->can("manage_users_cl") &&
-                        Yii::$app->user->can("manage_users", ["affected_user" => $user])) {
+                        (Yii::$app->user->can("manage_users", ["affected_user" => $user]) or
+                        Yii::$app->user->can("cl_owner",["checklist"=>$cl]))) {
                         return \yii\bootstrap\Html::button("delete", [
                             "value" => Url::to(["admin/delete-cl", "id" => $cl->id]),
                             "class" => "btnact"

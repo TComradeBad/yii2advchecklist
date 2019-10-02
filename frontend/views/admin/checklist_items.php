@@ -74,13 +74,14 @@ use yii\helpers\Url;
 <h4>
     <?
     if (Yii::$app->user->can("manage_users_cl") &&
-        Yii::$app->user->can("manage_users", ["affected_user" => $user])) {
+        (Yii::$app->user->can("manage_users", ["affected_user" => $cl->user]) or
+            Yii::$app->user->can("cl_owner", ["checklist" => $cl]))) {
         if ($cl->soft_delete) {
             echo "<button class='btn-success' value='false' onclick='setSoftDelete(event)'>Enable</button>";
         } else {
             echo "<button class='btn-warning' value='true' onclick='setSoftDelete(event)'>Soft Delete</button>";
         }
-    }else{
+    } else {
         echo "<p class='text-danger'>Unable</p>";
     }
     ?>

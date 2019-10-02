@@ -98,10 +98,33 @@ class CheckList extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Save all input items
+     * @param $data
+     */
 
     public function saveItems($data)
     {
         if (!empty($data)) {
+            foreach ($data as $item) {
+                if ($item != "") {
+                    $cl_item = new CheckListItem();
+                    $cl_item->name = $item;
+                    $cl_item->cl_id = $this->id;
+                    $cl_item->save();
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete all items and set new
+     * @param $data
+     */
+    public function resetItems($data)
+    {
+        if (!empty($data)) {
+            CheckListItem::deleteAll(["cl_id" => $this->id]);
             foreach ($data as $item) {
                 if ($item != "") {
                     $cl_item = new CheckListItem();

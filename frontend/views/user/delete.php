@@ -14,16 +14,12 @@ use yii\web\User;
 ?>
 <script>
     document.getElementsByClassName('modal-header')[0].innerHTML = '<h3>Delete</h3>';
-    let form = document.getElementById("delete-form");
-    form.onsubmit = function () {
-        $.pjax.reload({container:"#grid_view",timeout:false});
-    }
 </script>
 
 
 <?php
 
-    echo Html::beginForm(["delete-cl","del_id"=>$del_id],"post",["id"=>"delete-form"]) .
+    echo Html::beginForm(["/user/delete-cl","del_id"=>$del_id],"post",["id"=>"delete-form"]) .
         "<h1>Are you sure about that?</h1>" .
         "<h2><br></h2>" .
         Html::submitButton("Delete") .

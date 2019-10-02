@@ -69,9 +69,27 @@ use yii\widgets\Pjax;
     ]
 ])
 ?>
+<? echo Html::button("Delete", [
+    "value" => Url::to(["user/delete-cl", "id" => $cl->id]),
+    "class" => "btnact btn-danger",
+    "id" => "delete_my_cl"
+])."  "
+    .Html::button("Change checklist ", [
+    "value" => Url::to(['user/checklist-form',"upd_id"=>$cl->id]),
+    "class" => "btnact btn-warning",
+    "id" => "change_cl"
+]) ;?>
+
 <script>
-    $(".pagination li a").click(function(){
+    $(".pagination li a").click(function () {
         $("#modalContent").load($(this).attr('href'));
+        return false;
+    });
+</script>
+
+<script>
+    $(".btnact").click(function () {
+        $("#modalContent").load($(this).attr('value'));
         return false;
     });
 </script>
