@@ -15,11 +15,12 @@ use yii\behaviors\TimestampBehavior;
  * @property int $cl_id
  * @property int $created_at
  * @property int $updated_at
- *
+ * @property bool $to_delete
  * @property CheckList $cl
  */
 class CheckListItem extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */

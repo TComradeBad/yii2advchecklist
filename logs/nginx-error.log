@@ -7878,3 +7878,129 @@ $_SERVER = [
     'argv' => [],
     'argc' => 0,
 ]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "POST /user/my-cl-upd HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/my-cl"
+2019/10/07 13:05:05 [error] 6#6: *670 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/vendor/yiisoft/yii2/web/View.php on line 181. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/vendor/yiisoft/yii2/web/View.php on line 181. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(16): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		p
+2019/10/07 13:05:05 [error] 6#6: *670 FastCGI sent in stderr: "CTION' => 'keep-alive',
+    'HTTP_REFERER' => 'http://frontend.local/user/index',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '60964',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklists',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '',
+    'CONTENT_TYPE' => '',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1570453505.814963,
+    'REQUEST_TIME' => 1570453505,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "GET /user/checklists HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/index"
+2019/10/07 13:05:07 [error] 6#6: *670 FastCGI sent in stderr: "PHP message: An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/vendor/yiisoft/yii2/web/View.php on line 181. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /app/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /app/vendor/yiisoft/yii2/web/View.php on line 181. in /app/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /app/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /app/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /app/frontend/web/index.php(16): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'PHP_EXTRA_CONFIGURE_ARGS' => '--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --disable-cgi',
+    'HOSTNAME' => '5db0cc3e6ff5',
+    'PHP_INI_DIR' => '/usr/local/etc/php',
+    'HOME' => '/var/www',
+    'PHP_LDFLAGS' => '-Wl,-O1 -Wl,--hash-style=both -pie',
+    'PHP_CFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_MD5' => '',
+    'PHP_VERSION' => '7.3.9',
+    'GPG_KEYS' => 'CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D',
+    'PHP_CPPFLAGS' => '-fstack-protector-strong -fpic -fpie -O2',
+    'PHP_ASC_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz.asc/from/this/mirror',
+    'PHP_URL' => 'https://www.php.net/get/php-7.3.9.tar.xz/from/this/mirror',
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    'PHPIZE_DEPS' => 'autoconf 		dpkg-dev 		file 		g++ 		gcc 		libc-dev 		make 		p
+2019/10/07 13:05:07 [error] 6#6: *670 FastCGI sent in stderr: "CTION' => 'keep-alive',
+    'HTTP_REFERER' => 'http://frontend.local/user/index',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101 Firefox/69.0',
+    'HTTP_HOST' => 'frontend.local',
+    'SCRIPT_FILENAME' => '/app/frontend/web/index.php',
+    'REDIRECT_STATUS' => '200',
+    'SERVER_NAME' => 'frontend.local',
+    'SERVER_PORT' => '80',
+    'SERVER_ADDR' => '172.18.0.5',
+    'REMOTE_PORT' => '60964',
+    'REMOTE_ADDR' => '172.18.0.1',
+    'SERVER_SOFTWARE' => 'nginx/1.17.3',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'REQUEST_SCHEME' => 'http',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'DOCUMENT_ROOT' => '/app/frontend/web',
+    'DOCUMENT_URI' => '/index.php',
+    'REQUEST_URI' => '/user/checklists',
+    'SCRIPT_NAME' => '/index.php',
+    'CONTENT_LENGTH' => '',
+    'CONTENT_TYPE' => '',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'FCGI_ROLE' => 'RESPONDER',
+    'PHP_SELF' => '/index.php',
+    'REQUEST_TIME_FLOAT' => 1570453507.563279,
+    'REQUEST_TIME' => 1570453507,
+    'argv' => [],
+    'argc' => 0,
+]" while reading upstream, client: 172.18.0.1, server: frontend.local, request: "GET /user/checklists HTTP/1.1", upstream: "fastcgi://172.18.0.4:9000", host: "frontend.local", referrer: "http://frontend.local/user/index"

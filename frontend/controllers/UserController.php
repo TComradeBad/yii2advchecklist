@@ -13,6 +13,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use yii\helpers\Console;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
@@ -181,7 +182,7 @@ class UserController extends BaseController
                     ]
                 ]);
                 $this->layout = false;
-                return $this->render("my_checklist_items", ["dataProvider" => $dataProviderItems, "cl" => $cl]);
+                return $this->renderAjax("my_checklist_items", ["dataProvider" => $dataProviderItems, "cl" => $cl]);
 
             }
         }
@@ -205,32 +206,40 @@ class UserController extends BaseController
         return $this->render("my_cl", ["dataProvider" => $dataProvider]);
     }
 
-    /**
-     * Form for creating checklist
+    /** Update or create ne checklist
+     * @param null $upd_id
      * @return string|Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionChecklistForm($upd_id = null)
     {
         $layout = $this->layout;
+
+        /** @var  $auth_user User */
+        $auth_user = Yii::$app->user->identity;
+
         $data = Yii::$app->request->post();
         if (!empty($data)) {
-            if ($data["name"] != "") {
-                if (isset($upd_id)) {
-                    $cl = CheckList::findOne(["id"=>$upd_id]);
-                    $cl->user_id = Yii::$app->user->id;
-                    $cl->name = $data["name"];
-                    $cl->update();
-                    $cl->resetItems($data["items"]);
-                } else {
-                    $cl = new CheckList();
-                    $cl->user_id = Yii::$app->user->id;
-                    $cl->name = $data["name"];
-                    $cl->save();
-                    $cl->saveItems($data["items"]);
+            if (count($auth_user->checkLists) < $auth_user->user_cl_count) {
+                if ($data["name"] != "") {
+                    if (isset($upd_id)) {
+                        $cl = CheckList::findOne(["id" => $upd_id]);
+                        $cl->user_id = $auth_user->id;
+                        $cl->name = $data["name"];
+                        $cl->update();
+                        $cl->saveItems($data["items"]);
+                        return $this->redirect(null, 200);
+                    } else {
+                        $cl = new CheckList();
+                        $cl->user_id = $auth_user->id;
+                        $cl->name = $data["name"];
+                        $cl->save();
+                        $cl->saveItems($data["items"]);
+                        return $this->redirect(null, 200);
+                    }
                 }
-
             }
-
             return $this->redirect(\Yii::$app->request->referrer);
         }
         $user = Yii::$app->user->identity;
@@ -258,8 +267,6 @@ class UserController extends BaseController
             if (Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
                 $cl->delete();
             }
-
-
             return $this->redirect(\Yii::$app->request->referrer);
         }
         return $this->render("delete", ["del_id" => $id]);
@@ -281,19 +288,7 @@ class UserController extends BaseController
                 $cl_item = CheckListItem::findOne($data["item_id"]);
                 $cl_item->done = ($data["value"] == "true") ? "1" : "0";
                 $cl_item->update();
-                $raw = CheckListItem::findAll(["done" => "0", "cl_id" => $data["cl_id"]]);
-
-                if (empty($raw)) {
-                    if ($cl->done != "1") {
-                        $cl->done = "1";
-                        $cl->update();
-                    }
-                } else {
-                    if ($cl->done != "0") {
-                        $cl->done = "0";
-                        $cl->update();
-                    }
-                }
+                $cl->updateDoneStatus();
                 return $this->redirect(null, 200);
             }
         }

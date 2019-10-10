@@ -5,6 +5,7 @@ use common\models\User;
 use yii\grid\GridView;
 use yii\grid\SerialColumn;
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 
@@ -12,42 +13,19 @@ use yii\helpers\Url;
 /* @var  $cl CheckList */
 /* @var $user User */
 /* @var $dataProvider */
-
+$this->registerJsFile("@web/js/admin_cl_items.js", ["depends" => [JqueryAsset::class]]);
 ?>
 
 <article
         id="vars"
         data-cl-id='<?= $cl->id ?>'
-        data-user-id="<?= $user->id ?>">
+        data-user-id="<?= $user->id ?>"
+    <?php
+    echo "data-csrf='" . Yii::$app->request->csrfParam . "'" . PHP_EOL;
+    echo "data-token='" . Yii::$app->request->getCsrfToken() . "'" . PHP_EOL;
+    ?>>
 </article>
-<script>
-    let xrf = new XMLHttpRequest();
-    let data = new FormData();
-</script>
 
-
-<script>
-    xrf.onload = function () {
-        let url = window.location.href;
-        let user_id = document.getElementById("vars").dataset.userId;
-        let id = document.getElementById("vars").dataset.clId;
-        if (xrf.status == "200") {
-            $.pjax.reload({container: "#grid_view"});
-            $("#modalContent").load("/admin/view-user-info?id=" + user_id + "&cl_id=" + id);
-
-        }
-    };
-
-    function setSoftDelete(event) {
-        event.preventDefault();
-        let id = document.getElementById("vars").dataset.clId;
-        data.set('<?=Yii::$app->request->csrfParam?>', '<?=Yii::$app->request->getCsrfToken()?>');
-        data.set("cl_id", id);
-        data.set("value", event.target.value);
-        xrf.open("post", "/admin/soft-delete-cl");
-        xrf.send(data);
-    }
-</script>
 <div class="p-3 mb-2 bg-info text-white text-center"><h3>Items</h3></div><br>
 <?= GridView::widget([
     "dataProvider" => $dataProvider,

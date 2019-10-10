@@ -4,6 +4,8 @@
 /* @var $dataProvider ActiveDataProvider $ */
 
 use common\models\CheckList;
+use frontend\assets\AppAsset;
+use frontend\assets\JsAsset;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
 use yii\data\ActiveDataProvider;
@@ -11,9 +13,11 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\grid\SerialColumn;
 use yii\helpers\Url;
+use yii\web\JqueryAsset;
 use yii\web\View;
 use yii\widgets\Pjax;
 
+echo $this->registerJsFile("@web/js/cl_index_script.js", ["depends" => [JqueryAsset::class]]);
 Modal::begin([
     "id" => "modal",
     "size" => Modal::SIZE_LARGE,
@@ -21,20 +25,7 @@ Modal::begin([
 echo "<div id='modalContent'></div>";
 Modal::end();
 ?>
-<script>
-    function searchAction() {
-        let post_data = {search: $("#search_cl_input").val()};
-        $.pjax.reload(
-            {
-                container: "#grid_view",
-                timeout: false,
-                url: "/user/checklists?search=go",
-                type: "POST",
-                data: post_data
-            }
-        );
-    }
-</script>
+
 
 <div class="row">
     <div id="create_button_div" class="col-md-4" style="display: inline">
@@ -49,6 +40,7 @@ Modal::end();
     </div>
 </div>
 <h6><br></h6>
+
 <div id="pjax_inside">
     <? Pjax::begin(["id" => "grid_view"]) ?>
     <? $this->registerJs("$('button.btnact') . click(function () { $('#modal') . modal('show'). find('#modalContent'). load($(this) . attr('value'));});", View::POS_READY); ?>

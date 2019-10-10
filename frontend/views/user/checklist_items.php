@@ -10,7 +10,12 @@ use yii\helpers\Html;
 /* @var  $cl_name CheckList */
 
 /* @var $dataProvider */
+
+echo $this->registerJsFile("@web/js/cl_items_script.js");
+$this->beginPage();
+$this->beginBody();
 ?>
+
 
 <div class="p-3 mb-2 bg-info text-white text-center"><h3><?= $cl_name ?></h3></div><br>
 <?= GridView::widget([
@@ -25,9 +30,9 @@ use yii\helpers\Html;
             "label" => "Complete",
             "format" => "raw",
             "value" => function ($cl_items) {
-                if ($cl_items->done){
+                if ($cl_items->done) {
                     return "<div class='text-success'>Done</div>";
-                }else{
+                } else {
                     return "<div class='text-danger'>In Process</div>";
                 }
             }
@@ -35,9 +40,13 @@ use yii\helpers\Html;
     ]
 ])
 ?>
+
 <script>
-    $(".pagination li a").click(function(){
-        $("#modalContent").load($(this).attr('href'));
-        return false;
-    });
+    document.getElementsByClassName('modal-header')[0].innerHTML = '<h3>Items</h3>';
+
+    $(document).ready(function () {
+        InitClItems();
+    })
 </script>
+<?= $this->endBody() ?>
+<?= $this->endPage() ?>

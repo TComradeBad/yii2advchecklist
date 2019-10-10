@@ -20,7 +20,6 @@ Modal::begin([
 echo "<div id='modalContent'></div>";
 Modal::end();
 ?>
-
 <script>
     function searchAction() {
         let post_data = {search: $("#search_cl_input").val()};
