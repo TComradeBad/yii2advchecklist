@@ -8,8 +8,9 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    "name" => "Admin page",
-    "homeUrl"=>"/admin",
+
+    "name" => "CHECKLISTS",
+    "homeUrl"=>"/user/checklists",
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -50,6 +51,7 @@ return [
             'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
             'username' => 'yii2advanced',
             'password' => 'secret',
+            'charset' => 'utf8',
         ],
 
     ],

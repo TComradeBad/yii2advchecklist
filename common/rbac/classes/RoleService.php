@@ -5,6 +5,7 @@ namespace common\rbac\classes;
 class RoleService
 {
     protected static $levels = [
+        "user"=>0,
         "moderator" => 1,
         "admin" => 2,
         "super_admin" => 3,

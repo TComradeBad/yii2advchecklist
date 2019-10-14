@@ -2,9 +2,12 @@
 
 namespace common\models;
 
+use common\classes\ConsoleLog;
 use common\models\CheckListItem;
+use frontend\assets\JsAsset;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "checklist".
@@ -15,9 +18,10 @@ use yii\behaviors\TimestampBehavior;
  * @property int $user_id
  * @property int $created_at
  * @property int $updated_at
- *
+ * @property boolean soft_delete
  * @property User $user
  * @property CheckListItem[] $checklistItems
+ * @property Problem $problem
  */
 class CheckList extends \yii\db\ActiveRecord
 {
@@ -87,7 +91,12 @@ class CheckList extends \yii\db\ActiveRecord
      */
     public function getChecklistItems()
     {
-        return $this->hasMany(ChecklistItem::className(), ['cl_id' => 'id']);
+        return $this->hasMany(ChecklistItem::class, ['cl_id' => 'id']);
+    }
+
+    public function getProblem()
+    {
+        return $this->hasOne(Problem::class,['cl_id' => 'id']);
     }
 
     public function behaviors()
@@ -96,4 +105,60 @@ class CheckList extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
+    /**
+     * @param $data
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+
+    public function saveItems($data)
+    {
+        if (!empty($data)) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                CheckListItem::updateAll(["to_delete" => "1"], ["cl_id" => $this->id]);
+                foreach ($data as $item) {
+                    if ($item["item_name"] != "") {
+                        if (isset($item["item_id"])) {
+                            $cl_item = CheckListItem::findOne(["id" => $item["item_id"]]);
+                            $cl_item->name = $item["item_name"];
+                            $cl_item->to_delete = "0";
+                            $cl_item->update();
+                        } else {
+                            $cl_item = new CheckListItem();
+                            $cl_item->name = $item["item_name"];
+                            $cl_item->cl_id = $this->id;
+                            $cl_item->to_delete = "0";
+                            $cl_item->save();
+                        }
+                    }
+                }
+                CheckListItem::deleteAll(["AND", "cl_id" => $this->id, ["to_delete" => "1"]]);
+                $this->updateDoneStatus();
+                $transaction->commit();
+            } catch (Exception $e) {
+                ConsoleLog::log($e);
+                $transaction->rollBack();
+            }
+        }
+    }
+
+    public function updateDoneStatus()
+    {
+        $raw = CheckListItem::findAll(["done" => "0", "cl_id" =>$this->id]);
+
+        if (empty($raw)) {
+            if ($this->done != "1") {
+                $this->done = "1";
+                $this->update();
+            }
+        } else {
+            if ($this->done != "0") {
+                $this->done = "0";
+                $this->update();
+            }
+        }
+    }
+
 }
