@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "cl_problem".
@@ -60,5 +61,12 @@ class Problem extends \yii\db\ActiveRecord
     public function getCl()
     {
         return $this->hasOne(Checklist::className(), ['id' => 'cl_id']);
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 }

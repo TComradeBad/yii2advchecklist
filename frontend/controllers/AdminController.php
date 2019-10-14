@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Problem;
 use Yii;
 use common\classes\ConsoleLog;
 use common\models\CheckList;
@@ -9,9 +10,12 @@ use common\models\CheckListItem;
 use yii\base\Controller;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
+use yii\db\StaleObjectException;
+use yii\db\Transaction;
 use yii\debug\models\timeline\DataProvider;
 use yii\filters\AccessControl;
 use common\models\User;
+use yii\web\Response;
 
 class AdminController extends BaseController
 {
@@ -90,9 +94,9 @@ class AdminController extends BaseController
     /**
      * Ban users
      * @param null $id
-     * @return \yii\web\Response
+     * @return Response
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws StaleObjectException
      */
     public function actionBan($id = null)
     {
@@ -112,9 +116,9 @@ class AdminController extends BaseController
      * Delete users
      * @param null $id
      * @param null $upd_id
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws StaleObjectException
      */
     public function actionDelete($id = null, $upd_id = null)
     {
@@ -150,7 +154,7 @@ class AdminController extends BaseController
      * Manage user's roles
      * @param null $id
      * @param null $upd_id
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws \Exception
      */
     public function actionSetRoles($id = null, $upd_id = null)
@@ -184,9 +188,9 @@ class AdminController extends BaseController
      * Set checklist and items count
      * @param null $id
      * @param null $upd_id
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws StaleObjectException
      */
     public function actionSetCount($id = null, $upd_id = null)
     {
@@ -216,9 +220,9 @@ class AdminController extends BaseController
     }
 
     /**
-     * View Users CheckList
      * @param null $id
-     * @return string|\yii\web\Response
+     * @param null $cl_id
+     * @return string|Response
      */
     public function actionViewUserInfo($id = null, $cl_id = null)
     {
@@ -227,13 +231,14 @@ class AdminController extends BaseController
         if (isset($id)) {
             $user = User::findIdentity($id);
             $dataProvider = new ActiveDataProvider([
-                "query" => CheckList::find()->where(["user_id" => $id]),
+                "query" => CheckList::find()->where(["user_id" => $id])->with("problem"),
                 "pagination" => [
                     "pageSize" => 10
                 ]
             ]);
             if (isset($cl_id)) {
-                $cl = CheckList::findOne(["id" => $cl_id]);
+                $cl = CheckList::find()->where(["id" => $cl_id])->with("problem")->one();
+                $problem = $cl->problem->description;
                 $dataProvider = new ActiveDataProvider([
                     "query" => CheckListItem::find()->where(["cl_id" => $cl_id]),
                     "sort" => ["attributes" => [
@@ -244,7 +249,12 @@ class AdminController extends BaseController
                     ]
                 ]);
 
-                return $this->renderAjax("checklist_items", ["dataProvider" => $dataProvider, "cl" => $cl, "user" => $user]);
+                return $this->renderAjax("checklist_items",
+                    [
+                        "dataProvider" => $dataProvider,
+                        "cl" => $cl,
+                        "user" => $user,
+                        "cl_problem" => $problem]);
 
             }
             $this->layout = $layout;
@@ -256,35 +266,71 @@ class AdminController extends BaseController
 
 
     /**
-     * Setting soft delete of checklist
-     * @return \yii\web\Response
+     * @param null $cl_id
+     * @param null $user_id
+     * @param false $unset_sd
+     * @return string|Response
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
-    public function actionSoftDeleteCl()
+    public function actionSoftDeleteCl($cl_id = null, $user_id = null, $unset_sd = false)
     {
-
         $data = \Yii::$app->request->post();
         if (!empty($data)) {
-            $cl = CheckList::findOne(["id" => $data["cl_id"]]);
-            if (Yii::$app->user->can("manage_users", ["affected_user" => $cl->user]) or
-                Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
-                $cl->soft_delete = ($data["value"] === "true") ? "1" : "0";
-                $cl->update();
-                return $this->redirect(null, "200");
+            $tr = Yii::$app->db->beginTransaction();
+
+            try {
+                $cl = CheckList::find()->where(["id" => $data["cl_id"]])->with("problem")->one();
+                if (Yii::$app->user->can("manage_users", ["affected_user" => $cl->user]) or
+                    Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
+
+                    if ($unset_sd) {
+                        $cl->soft_delete = "0";
+                        $problem = $cl->problem;
+                        $problem->pushed_to_review = "0";
+                        $problem->description = null;
+                        $cl->update();
+                        $problem->update();
+                        $tr->commit();
+                        return $this->redirect(null, 200);
+                    }
+                    if (!isset($cl->problem)) {
+                        $problem = new Problem();
+                        $problem->description = $data["description"];
+                        $problem->link("cl", $cl);
+                        $problem->save();
+                    } else {
+                        $problem = $cl->problem;
+                        $problem->description = $data["description"];
+                        $problem->pushed_to_review = "0";
+                        $problem->update();
+                    }
+                    $cl->soft_delete = "1";
+                    $cl->update();
+                    $tr->commit();
+                }
+            } catch (\Exception $exception) {
+                $tr->rollBack();
+                ConsoleLog::log($exception->getMessage());
             }
+            return $this->redirect(null, "200");
 
         }
-        return $this->redirect(null, "400");
+        $this->layout = false;
+        return $this->render("soft_delete_set",
+            [
+                ///Params for url to reload pjax
+                "user_id" => $user_id,
+                "cl_id" => $cl_id
+            ]);
     }
 
     /**
      * Delete user cl
      * @param null $id
      * @param null $del_id
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws StaleObjectException
      */
     public function actionDeleteCl($id = null, $del_id = null)
     {

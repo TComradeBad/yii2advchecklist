@@ -57,9 +57,13 @@ Modal::end();
     <?= GridView::widget([
         "dataProvider" => $dataProvider,
         'rowOptions' => function($model){
-            if($model->soft_delete){
-                return ["class" => "danger"];
+            if ($model->soft_delete) {
+            if ($model->problem->pushed_to_review){
+                return ["style"=>"background-color:#f6ff47;color:black;"];
             }
+            return ["style"=>"background-color:#ffa3a3;color:black"];
+        }
+        return ["style" => "background-color : #7dff9b"];
         },
         "columns" => [
             ["class" => SerialColumn::class],

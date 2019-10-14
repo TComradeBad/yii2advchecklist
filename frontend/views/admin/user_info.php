@@ -50,9 +50,15 @@ Modal::end();
 <?= GridView::widget([
     "dataProvider" => $dataProvider,
     'rowOptions' => function ($model) {
+    /** @var  $model CheckList */
         if ($model->soft_delete) {
-            return ["class" => "danger"];
+            if ($model->problem->pushed_to_review){
+                return ["style"=>"background-color:#f6ff47;color:black;"];
+            }
+            return ["style"=>"background-color:#ffa3a3;color:black"];
         }
+        return ["style" => "background-color : #7dff9b"];
+
     },
     "columns" => [
         ["class" => SerialColumn::class],
@@ -62,7 +68,8 @@ Modal::end();
             "value" => function ($cl) use ($user) {
                 return \yii\bootstrap\Html::button("view", [
                     "value" => Url::to(["view-user-info", "id" => $user->id, "cl_id" => $cl->id]),
-                    "class" => "btnact btn-info"
+                    "class" => "btnact btn-info",
+                    "style" => "color : white",
                 ]);
             }
         ],
@@ -97,7 +104,8 @@ Modal::end();
                         Yii::$app->user->can("cl_owner",["checklist"=>$cl]))) {
                         return \yii\bootstrap\Html::button("delete", [
                             "value" => Url::to(["admin/delete-cl", "id" => $cl->id]),
-                            "class" => "btnact"
+                            "class" => "btnact",
+                            "style" => "color : black"
                         ]);
                     } else {
                         return "<p class='text-danger'>Unable</p>";

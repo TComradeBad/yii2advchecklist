@@ -11,6 +11,7 @@ use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var  $cl CheckList */
+/* @var $cl_problem */
 
 /* @var $dataProvider */
 echo $this->registerJsFile("@web/js/my_cl_items_script.js", ["depends" => [JqueryAsset::class]]);
@@ -65,7 +66,17 @@ echo Html::button("Change checklist ", [
     "class" => "btnact btn-warning active-element",
     "id" => "change_my_cl"
 ]); ?>
-
+    <div id="cl_problem">
+        <h6>
+            <?php
+            if (isset($cl_problem)) {
+                echo '<div class="p-3 mb-2 bg-danger text-white text-center"><h3>Problem</h3></div>';
+                echo '<div class="p-3 mb-2 bg-warning" style="background-color: #fff97a"><wbr></div>';
+                echo '<div class="p-3 mb-2 bg-danger text-white" style="font-size:15px"><h3></h3>' . $cl_problem . '</div><br>';
+            }
+            ?>
+        </h6>
+    </div><br>
 
     <script>
         document.getElementsByClassName('modal-header')[0].innerHTML = '<h3>Items</h3>';

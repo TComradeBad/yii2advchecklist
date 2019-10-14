@@ -182,8 +182,13 @@ class UserController extends BaseController
                     ]
                 ]);
                 $this->layout = false;
-                return $this->renderAjax("my_checklist_items", ["dataProvider" => $dataProviderItems, "cl" => $cl]);
-
+                return $this->renderAjax("my_checklist_items",
+                    [
+                        "dataProvider" => $dataProviderItems,
+                        "cl" => $cl,
+                        "cl_problem" => $cl->problem->description,
+                    ]
+                );
             }
         }
 
@@ -221,16 +226,28 @@ class UserController extends BaseController
 
         $data = Yii::$app->request->post();
         if (!empty($data)) {
-            if (count($auth_user->checkLists) < $auth_user->user_cl_count) {
-                if ($data["name"] != "") {
-                    if (isset($upd_id)) {
+            if ($data["name"] != "") {
+                if (isset($upd_id)) {
+                    $tr = Yii::$app->db->beginTransaction();
+                    try {
                         $cl = CheckList::findOne(["id" => $upd_id]);
                         $cl->user_id = $auth_user->id;
                         $cl->name = $data["name"];
+                        if ($cl->soft_delete == "1") {
+                            $problem = $cl->problem;
+                            $problem->pushed_to_review = "1";
+                            $problem->update();
+                        }
                         $cl->update();
                         $cl->saveItems($data["items"]);
-                        return $this->redirect(null, 200);
-                    } else {
+                        $tr->commit();
+                    } catch (\Exception $exception) {
+                        $tr->rollBack();
+                        ConsoleLog::log($exception);
+                    }
+                    return $this->redirect(null, 200);
+                } else {
+                    if (count($auth_user->checkLists) < $auth_user->user_cl_count) {
                         $cl = new CheckList();
                         $cl->user_id = $auth_user->id;
                         $cl->name = $data["name"];
@@ -292,9 +309,6 @@ class UserController extends BaseController
                 return $this->redirect(null, 200);
             }
         }
-
         return $this->redirect(null, 400);
-
-
     }
 }

@@ -21,7 +21,7 @@ use yii\db\Exception;
  * @property boolean soft_delete
  * @property User $user
  * @property CheckListItem[] $checklistItems
- * @property  Problem $problem
+ * @property Problem $problem
  */
 class CheckList extends \yii\db\ActiveRecord
 {
@@ -114,7 +114,6 @@ class CheckList extends \yii\db\ActiveRecord
 
     public function saveItems($data)
     {
-
         if (!empty($data)) {
             $transaction = Yii::$app->db->beginTransaction();
             try {
