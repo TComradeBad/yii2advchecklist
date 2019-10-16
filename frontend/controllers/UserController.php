@@ -235,7 +235,7 @@ class UserController extends BaseController
                         $cl->name = $data["name"];
                         if ($cl->soft_delete == "1") {
                             $problem = $cl->problem;
-                            $problem->pushed_to_review = "1";
+                            $cl->pushed_to_review = "1";
                             $problem->update();
                         }
                         $cl->update();

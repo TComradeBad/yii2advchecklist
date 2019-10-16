@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5aeaec3b8881e3170c3e3311c8bbff3",
+    "content-hash": "e2f263e59854195e47bb0e9cd166dced",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -29,11 +29,49 @@
             ]
         },
         {
+            "name": "bower-asset/chart.js",
+            "version": "v2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chartjs/Chart.js.git",
+                "reference": "947d8a7ccfbfc76dd9d384ea75436fa4a7aeefb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/947d8a7ccfbfc76dd9d384ea75436fa4a7aeefb1",
+                "reference": "947d8a7ccfbfc76dd9d384ea75436fa4a7aeefb1",
+                "shasum": null
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/chartjs",
+            "version": "v2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chartjs/Chart.js.git",
+                "reference": "947d8a7ccfbfc76dd9d384ea75436fa4a7aeefb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/947d8a7ccfbfc76dd9d384ea75436fa4a7aeefb1",
+                "reference": "947d8a7ccfbfc76dd9d384ea75436fa4a7aeefb1",
+                "shasum": null
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "git@github.com:RobinHerbots/Inputmask.git",
+                "url": "https://github.com/RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -62,6 +100,25 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/15bc73803f76bc53b654b9fdbbbc096f56d7c03d",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d",
+                "shasum": null
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/pace",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:HubSpot/pace.git",
+                "reference": "c6846cbf6b928e9903b569269fa9fbf32f2554f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HubSpot/pace/zipball/c6846cbf6b928e9903b569269fa9fbf32f2554f4",
+                "reference": "c6846cbf6b928e9903b569269fa9fbf32f2554f4",
                 "shasum": null
             },
             "type": "bower-asset",
@@ -372,6 +429,97 @@
                 "yii2"
             ],
             "time": "2018-10-03T08:13:07+00:00"
+        },
+        {
+            "name": "phpnt/yii2-chartjs",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpnt/yii2-chartjs.git",
+                "reference": "ce836c38180bc7a6509d3e96b668f7976058ed3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpnt/yii2-chartjs/zipball/ce836c38180bc7a6509d3e96b668f7976058ed3c",
+                "reference": "ce836c38180bc7a6509d3e96b668f7976058ed3c",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/chart.js": "*",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "phpnt\\chartJS\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "phpNT",
+                    "email": "phpnt@phpnt.com",
+                    "homepage": "http://phpnt.com"
+                }
+            ],
+            "description": "Yii2 chartjs",
+            "keywords": [
+                "Chart.js",
+                "chart js",
+                "chartjs",
+                "phpnt",
+                "yii2",
+                "yii2 chartjs"
+            ],
+            "time": "2017-04-29T03:43:19+00:00"
+        },
+        {
+            "name": "phpnt/yii2-pace",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpnt/yii2-pace.git",
+                "reference": "3033d594c57593ade6ddb8041d26ea7168780b71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpnt/yii2-pace/zipball/3033d594c57593ade6ddb8041d26ea7168780b71",
+                "reference": "3033d594c57593ade6ddb8041d26ea7168780b71",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/pace": "*",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "phpnt\\pace\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "phpNT",
+                    "email": "phpnt@phpnt.com",
+                    "homepage": "http://phpnt.com"
+                }
+            ],
+            "description": "Yii2 Pace",
+            "keywords": [
+                "PACE",
+                "phpnt",
+                "yii2"
+            ],
+            "time": "2017-04-11T17:33:05+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

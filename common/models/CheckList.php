@@ -22,6 +22,7 @@ use yii\db\Exception;
  * @property User $user
  * @property CheckListItem[] $checklistItems
  * @property Problem $problem
+ * @property int $pushed_to_review
  */
 class CheckList extends \yii\db\ActiveRecord
 {
@@ -54,6 +55,7 @@ class CheckList extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'done' => 'Done',
+            'pushed_to_review' => 'Pushed To Review',
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
