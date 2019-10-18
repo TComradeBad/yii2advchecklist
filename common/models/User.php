@@ -2,14 +2,18 @@
 
 namespace common\models;
 
+use common\classes\ConsoleLog;
 use Yii;
+use yii\base\Event;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\filters\auth\HttpBasicAuth;
+use yii\helpers\Json;
 use yii\web\IdentityInterface;
 use common\models\CheckList;
 use yii\filters\auth\HttpBearerAuth;
+use common\models\UserInfo;
 
 /**
  * User model
@@ -28,20 +32,26 @@ use yii\filters\auth\HttpBearerAuth;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
- *
+ * @property UserInfo $userInformation
  * @property \common\models\CheckList[] $checkLists
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    /**
+     * User states
+     */
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+
+    /**
+     * {@inheritdoc}
+     */
     public function init()
     {
         parent::init();
         //Yii::$app->user->enableSession = false;
-
     }
 
     public function behaviors()
@@ -71,6 +81,9 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             "checklists" => function () {
                 return $this->checkLists;
+            },
+            "user_information" => function () {
+                return $this->user_information;
             }
         ];
     }
@@ -256,9 +269,15 @@ class User extends ActiveRecord implements IdentityInterface
         return $role->name;
     }
 
+    public function getUserInformation()
+    {
+        return $this->hasOne(UserInfo::class, ["user_id" => "id"]);
+    }
+
     public function getCheckLists()
     {
         return $this->hasMany(CheckList::class, ["user_id" => "id"]);
     }
+
 
 }

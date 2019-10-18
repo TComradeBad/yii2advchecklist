@@ -42,7 +42,12 @@ Modal::begin([
     <div class="chart-container" style="position: relative; height:100%; width:100%;">
         <table>
             <tr>
-                <th><p class="text-center" style="background-color: #4aff51; color: white; text-shadow:5px 5px 15px #004602;
+                <th>
+                    <p class="text-center" style="background-color: #0030ff; color: white; text-shadow:5px 5px 15px #004602;
+     box-shadow:inset 5px 5px 15px #004602;">User's Information</p>
+                </th>
+                <th>
+                    <p class="text-center" style="background-color: #4aff51; color: white; text-shadow:5px 5px 15px #004602;
      box-shadow:inset 5px 5px 15px #004602;">User's checklist progress</p></th>
                 <th>
                     <p class="text-center" style="background-color: #d1e32b; color: white; text-shadow:5px 5px 15px #004602;
@@ -52,6 +57,14 @@ Modal::begin([
 
 
             <tr>
+                <td width="600px" class="align-top">
+                    <table class="table align-top">
+                        <tr><td>User name</td><td id="info_user_name"></td></tr>
+                        <tr><td>Last Checklist done</td><td id="info_cl_done_time"></td></tr>
+                        <tr><td>Last Task done</td><td id="info_task_done_time"></td></tr>
+                    </table>
+
+                </td>
                 <td width="600px" height="30%">
                     <canvas id="ProgressChart"></canvas>
                 </td>

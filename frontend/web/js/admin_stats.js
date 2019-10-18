@@ -5,6 +5,7 @@ function InitClProgress(chart, data) {
     chart.data.datasets[0].data = [];
     chart.data.datasets[0].backgroundColor = [];
     chart.data.datasets[0].hoverBackgroundColor = [];
+    chart.update();
     if (data.cl_done_count != "0") {
         chart.data.labels.push("Checklists done(" + data.cl_done_count + ")");
         chart.data.datasets[0].data.push(data.cl_done_count);
@@ -30,6 +31,7 @@ function InitSD(chart,data) {
     chart.data.datasets[0].data = [];
     chart.data.datasets[0].backgroundColor = [];
     chart.data.datasets[0].hoverBackgroundColor = [];
+    chart.update();
     if (data.cl_sd != "0") {
         chart.data.labels.push("Have  problems(" + data.cl_sd + ")");
         chart.data.datasets[0].data.push(data.cl_sd);
@@ -98,6 +100,9 @@ $(document).ready(function () {
             url: $(this).attr("value"),
             type: "POST",
             success: function (data) {
+                $("#info_user_name").html(data.username);
+                $("#info_cl_done_time").html(data.last_cl_done);
+                $("#info_task_done_time").html(data.last_task_done);
                 InitClProgress(progress_chart, data);
                 InitSD(sd_chart,data);
                 progress_chart.update();
@@ -109,8 +114,9 @@ $(document).ready(function () {
 
     });
 
-    $("#modal").on("hide.bs.modal", function () {
+    $("#modal").on("hidden.bs.modal", function () {
         progress_chart.reset();
+        sd_chart.reset();
     });
 });
 

@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Problem;
+use common\models\UserInfo;
 use Yii;
 use common\classes\ConsoleLog;
 use common\models\CheckList;
@@ -320,7 +321,7 @@ class AdminController extends BaseController
                 }
             } catch (\Exception $exception) {
                 $tr->rollBack();
-                ConsoleLog::log($exception->getMessage().PHP_EOL.$exception->getTraceAsString());
+                ConsoleLog::log($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
             }
             return $this->redirect(null, "200");
 
@@ -371,24 +372,33 @@ class AdminController extends BaseController
             $this->layout = false;
             $query = new Query();
             $tr = Yii::$app->db->beginTransaction();
-            try{
-
-
-            $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "1", "user_id" => $user->id])->one();
-            $progress_data["cl_done_count"] = $raw["count(*)"];
-            $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "0", "user_id" => $user->id])->one();
-            $progress_data["cl_in_process_count"] = $raw["count(*)"];
-            $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete"=>"1","pushed_to_review"=>"0","user_id" => $user->id])->one();
-            $progress_data["cl_sd"] = $raw["count(*)"];
-            $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["pushed_to_review"=>"1","user_id" => $user->id])->one();
-            $progress_data["cl_on_review"] = $raw["count(*)"];
-            $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete"=>"0","user_id" => $user->id])->one();
-            $progress_data["cl_good"] = $raw["count(*)"];
-            $tr->commit();
-            }catch (\Exception $exception){
+            try {
+                //Done checklists
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "1", "user_id" => $user->id])->one();
+                $progress_data["cl_done_count"] = $raw["count(*)"];
+                //Checklists in progress
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "0", "user_id" => $user->id])->one();
+                $progress_data["cl_in_process_count"] = $raw["count(*)"];
+                //Soft deleted checklists
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete" => "1", "pushed_to_review" => "0", "user_id" => $user->id])->one();
+                $progress_data["cl_sd"] = $raw["count(*)"];
+                //Checklists on review
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["pushed_to_review" => "1", "user_id" => $user->id])->one();
+                $progress_data["cl_on_review"] = $raw["count(*)"];
+                //Good checklists
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete" => "0", "user_id" => $user->id])->one();
+                $progress_data["cl_good"] = $raw["count(*)"];
+                //User name
+                $progress_data["username"] = $user->username;
+                //Time of last done checklist
+                $progress_data["last_cl_done"] = Yii::$app->formatter->format($user->userInformation->last_cl_done_time, "datetime");
+                //Time of last done task
+                $progress_data["last_task_done"] = Yii::$app->formatter->format($user->userInformation->last_task_done_time, "datetime");
+                $tr->commit();
+            } catch (\Exception $exception) {
                 ConsoleLog::log($exception->getMessage());
                 $tr->rollBack();
-                return $this->redirect(null,404);
+                return $this->redirect(null, 404);
             }
             return $this->asJson($progress_data);
         }
