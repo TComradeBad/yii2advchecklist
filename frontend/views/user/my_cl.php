@@ -58,7 +58,7 @@ Modal::end();
         "dataProvider" => $dataProvider,
         'rowOptions' => function($model){
             if ($model->soft_delete) {
-            if ($model->problem->pushed_to_review){
+            if ($model->pushed_to_review){
                 return ["style"=>"background-color:#f6ff47;color:black;"];
             }
             return ["style"=>"background-color:#ffa3a3;color:black"];

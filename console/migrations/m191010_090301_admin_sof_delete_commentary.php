@@ -1,5 +1,7 @@
 <?php
 
+use common\models\CheckList;
+use common\models\CheckListItem;
 use yii\db\Migration;
 
 /**
@@ -33,7 +35,6 @@ class m191010_090301_admin_sof_delete_commentary extends Migration
             "id" => $this->primaryKey(),
             "cl_id" => $this->integer(),
             "description" => $this->text(),
-            "pushed_to_review" => $this->boolean()->defaultValue("0"),
             'updated_at' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
         ]);
@@ -48,6 +49,8 @@ class m191010_090301_admin_sof_delete_commentary extends Migration
             'checklist',
             "id",
             "CASCADE");
+
+        $this->addColumn(CheckList::tableName(), "pushed_to_review", $this->boolean()->defaultValue("0"));
     }
 
     public function down()
@@ -55,6 +58,8 @@ class m191010_090301_admin_sof_delete_commentary extends Migration
         $this->dropForeignKey("fk-cl-problem","cl_problem");
         $this->dropIndex("idx-cl-problem","cl_problem");
         $this->dropTable("cl_problem");
+
+        $this->dropColumn(CheckList::tableName(),"pushed_to_review");
     }
 
 }

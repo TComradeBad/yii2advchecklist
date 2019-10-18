@@ -35,6 +35,8 @@ class ComposerStaticInitd2723fcc7b242da24da3a3d7f6717c1f
         ),
         'p' => 
         array (
+            'phpnt\\pace\\' => 11,
+            'phpnt\\chartJS\\' => 14,
             'phpDocumentor\\Reflection\\' => 25,
             'pahanini\\log\\' => 13,
         ),
@@ -128,6 +130,14 @@ class ComposerStaticInitd2723fcc7b242da24da3a3d7f6717c1f
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'phpnt\\pace\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpnt/yii2-pace',
+        ),
+        'phpnt\\chartJS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpnt/yii2-chartjs',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (

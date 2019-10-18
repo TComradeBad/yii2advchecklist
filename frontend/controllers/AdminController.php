@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Problem;
+use common\models\UserInfo;
 use Yii;
 use common\classes\ConsoleLog;
 use common\models\CheckList;
@@ -10,11 +11,13 @@ use common\models\CheckListItem;
 use yii\base\Controller;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
+use yii\db\Query;
 use yii\db\StaleObjectException;
 use yii\db\Transaction;
 use yii\debug\models\timeline\DataProvider;
 use yii\filters\AccessControl;
 use common\models\User;
+use yii\helpers\Json;
 use yii\web\Response;
 
 class AdminController extends BaseController
@@ -24,7 +27,7 @@ class AdminController extends BaseController
         return [
             "access" => [
                 "class" => AccessControl::class,
-                "only" => ["index", "ban", "delete", "set-roles", "set-count"],
+                "only" => ["index", "ban", "delete", "set-roles", "set-count", "statistics"],
                 "rules" => [
                     [
                         "allow" => true,
@@ -70,6 +73,12 @@ class AdminController extends BaseController
                         "allow" => true,
                         "actions" => ["delete-cl"],
                         "roles" => ["manage_users_cl"]
+                    ],
+                    [
+                        "allow" => true,
+                        "actions" => ["statistics"],
+                        "roles" => ["moderator"]
+
                     ]
                 ]
             ]
@@ -286,7 +295,7 @@ class AdminController extends BaseController
                     if ($unset_sd) {
                         $cl->soft_delete = "0";
                         $problem = $cl->problem;
-                        $problem->pushed_to_review = "0";
+                        $cl->pushed_to_review = "0";
                         $problem->description = null;
                         $cl->update();
                         $problem->update();
@@ -296,21 +305,23 @@ class AdminController extends BaseController
                     if (!isset($cl->problem)) {
                         $problem = new Problem();
                         $problem->description = $data["description"];
+                        $cl->pushed_to_review = "0";
                         $problem->link("cl", $cl);
                         $problem->save();
                     } else {
                         $problem = $cl->problem;
                         $problem->description = $data["description"];
-                        $problem->pushed_to_review = "0";
+                        $cl->pushed_to_review = "0";
                         $problem->update();
                     }
                     $cl->soft_delete = "1";
+
                     $cl->update();
                     $tr->commit();
                 }
             } catch (\Exception $exception) {
                 $tr->rollBack();
-                ConsoleLog::log($exception->getMessage());
+                ConsoleLog::log($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
             }
             return $this->redirect(null, "200");
 
@@ -346,5 +357,59 @@ class AdminController extends BaseController
         }
         return $this->render("delete_cl", ["del_id" => $id]);
 
+    }
+
+    /**
+     * @param null $id
+     * @return string
+     */
+    public function actionStatistics($id = null)
+    {
+        $layout = $this->layout;
+        if (isset($id)) {
+
+            $user = User::findOne(["id" => $id]);
+            $this->layout = false;
+            $query = new Query();
+            $tr = Yii::$app->db->beginTransaction();
+            try {
+                //Done checklists
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "1", "user_id" => $user->id])->one();
+                $progress_data["cl_done_count"] = $raw["count(*)"];
+                //Checklists in progress
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "0", "user_id" => $user->id])->one();
+                $progress_data["cl_in_process_count"] = $raw["count(*)"];
+                //Soft deleted checklists
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete" => "1", "pushed_to_review" => "0", "user_id" => $user->id])->one();
+                $progress_data["cl_sd"] = $raw["count(*)"];
+                //Checklists on review
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["pushed_to_review" => "1", "user_id" => $user->id])->one();
+                $progress_data["cl_on_review"] = $raw["count(*)"];
+                //Good checklists
+                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete" => "0", "user_id" => $user->id])->one();
+                $progress_data["cl_good"] = $raw["count(*)"];
+                //User name
+                $progress_data["username"] = $user->username;
+                //Time of last done checklist
+                $progress_data["last_cl_done"] = Yii::$app->formatter->format($user->userInformation->last_cl_done_time, "datetime");
+                //Time of last done task
+                $progress_data["last_task_done"] = Yii::$app->formatter->format($user->userInformation->last_task_done_time, "datetime");
+                $tr->commit();
+            } catch (\Exception $exception) {
+                ConsoleLog::log($exception->getMessage());
+                $tr->rollBack();
+                return $this->redirect(null, 404);
+            }
+            return $this->asJson($progress_data);
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            "query" => User::find(),
+            "pagination" => [
+                "pageSize" => 10
+            ]
+        ]);
+        $this->layout = $layout;
+        return $this->render("statistics", ["dataProvider" => $dataProvider]);
     }
 }

@@ -57,4 +57,22 @@ return array (
       '@pahanini/log' => $vendorDir . '/pahanini/yii2-consolelog',
     ),
   ),
+  'phpnt/yii2-pace' => 
+  array (
+    'name' => 'phpnt/yii2-pace',
+    'version' => '0.0.2.0',
+    'alias' => 
+    array (
+      '@phpnt/pace' => $vendorDir . '/phpnt/yii2-pace',
+    ),
+  ),
+  'phpnt/yii2-chartjs' => 
+  array (
+    'name' => 'phpnt/yii2-chartjs',
+    'version' => '0.0.2.0',
+    'alias' => 
+    array (
+      '@phpnt/chartJS' => $vendorDir . '/phpnt/yii2-chartjs',
+    ),
+  ),
 );

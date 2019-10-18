@@ -4,6 +4,7 @@
 
 /* @var $content string */
 
+use phpnt\pace\PaceAsset;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -12,6 +13,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+PaceAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -42,10 +44,10 @@ AppAsset::register($this);
         in_array("admin", array_keys($auth->getAssignments(Yii::$app->user->id)), true) or
         in_array("moderator", array_keys($auth->getAssignments(Yii::$app->user->id)), true)
     ) {
+        $menuItems[] = ['label' => "Statistics", "url" => ["/admin/statistics"]];
         $menuItems[] = ['label' => 'Users', 'url' => ['/admin/index']];
     }
     $menuItems [] = ['label' => 'CheckLists', 'url' => ['/user/checklists']];
-
 
 
     if (Yii::$app->user->isGuest) {

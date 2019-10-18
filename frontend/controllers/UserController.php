@@ -9,6 +9,7 @@ use common\models\CheckList;
 use common\models\CheckListItem;
 use common\models\User;
 use common\models\UserOptionForm;
+use yii\base\Event;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
@@ -235,7 +236,7 @@ class UserController extends BaseController
                         $cl->name = $data["name"];
                         if ($cl->soft_delete == "1") {
                             $problem = $cl->problem;
-                            $problem->pushed_to_review = "1";
+                            $cl->pushed_to_review = "1";
                             $problem->update();
                         }
                         $cl->update();
@@ -303,12 +304,19 @@ class UserController extends BaseController
 
             if (Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
                 $cl_item = CheckListItem::findOne($data["item_id"]);
-                $cl_item->done = ($data["value"] == "true") ? "1" : "0";
+                if ($data["value"] == "true") {
+                    $cl_item->done = "1";
+                    $cl_item->trigger(CheckListItem::EVENT_TASK_UPDATED);
+                } else {
+                    $cl_item->done = "0";
+                }
                 $cl_item->update();
                 $cl->updateDoneStatus();
                 return $this->redirect(null, 200);
             }
         }
+
         return $this->redirect(null, 400);
+
     }
 }

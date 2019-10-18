@@ -1,7 +1,6 @@
 "use strict"
 
-function searchAction() {
-    //$.ajax().off();
+function searchAction() {;
     let post_data = {search: $("#search_cl_input").val()};
     $.pjax.reload(
         {
