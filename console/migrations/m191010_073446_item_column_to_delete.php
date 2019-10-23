@@ -9,24 +9,6 @@ use yii\db\Migration;
  */
 class m191010_073446_item_column_to_delete extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m191010_073446_item_column_to_delete cannot be reverted.\n";
-
-        return false;
-    }
-
 
     public function up()
     {

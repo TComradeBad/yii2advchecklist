@@ -135,7 +135,7 @@ Modal::end();
             "value" => function ($model) {
                 return Html::button("View", [
                     "class" => "btn-info view_stats",
-                    "value" => Url::to(["/admin/statistics", "id" => $model->id])
+                    "value" => Url::to(["/admin/get-statistics", "id" => $model->id])
                 ]);
             }
         ]

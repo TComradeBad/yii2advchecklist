@@ -8,24 +8,6 @@ use yii\db\Migration;
  */
 class m190930_065210_cl_add_soft_delete_column extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m190930_065210_cl_add_soft_delete_column cannot be reverted.\n";
-
-        return false;
-    }
-
 
     public function up()
     {

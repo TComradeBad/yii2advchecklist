@@ -293,9 +293,9 @@ class AdminController extends BaseController
                     Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
 
                     if ($unset_sd) {
-                        $cl->soft_delete = "0";
+                        $cl->soft_delete = false;
                         $problem = $cl->problem;
-                        $cl->pushed_to_review = "0";
+                        $cl->pushed_to_review = false;
                         $problem->description = null;
                         $cl->update();
                         $problem->update();
@@ -305,16 +305,16 @@ class AdminController extends BaseController
                     if (!isset($cl->problem)) {
                         $problem = new Problem();
                         $problem->description = $data["description"];
-                        $cl->pushed_to_review = "0";
+                        $cl->pushed_to_review = false;
                         $problem->link("cl", $cl);
                         $problem->save();
                     } else {
                         $problem = $cl->problem;
                         $problem->description = $data["description"];
-                        $cl->pushed_to_review = "0";
+                        $cl->pushed_to_review = false;
                         $problem->update();
                     }
-                    $cl->soft_delete = "1";
+                    $cl->soft_delete = true;
 
                     $cl->update();
                     $tr->commit();
@@ -360,56 +360,46 @@ class AdminController extends BaseController
     }
 
     /**
+     * Page with User Statistics
      * @param null $id
      * @return string
      */
-    public function actionStatistics($id = null)
+    public function actionStatistics()
     {
         $layout = $this->layout;
+
+
+
+        $dataProvider = new ActiveDataProvider(["query" => User::find(),
+            "pagination" => ["pageSize" => 10]]);
+        $this->layout = $layout;
+        return $this->render("statistics", ["dataProvider" => $dataProvider]);
+
+    }
+
+    /**
+     * Return statistic data by id
+     * @param null $id
+     * @return Response
+     */
+    public function actionGetStatistics($id = null)
+    {
+        $this->layout = false;
         if (isset($id)) {
 
             $user = User::findOne(["id" => $id]);
             $this->layout = false;
-            $query = new Query();
-            $tr = Yii::$app->db->beginTransaction();
-            try {
-                //Done checklists
-                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "1", "user_id" => $user->id])->one();
-                $progress_data["cl_done_count"] = $raw["count(*)"];
-                //Checklists in progress
-                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["done" => "0", "user_id" => $user->id])->one();
-                $progress_data["cl_in_process_count"] = $raw["count(*)"];
-                //Soft deleted checklists
-                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete" => "1", "pushed_to_review" => "0", "user_id" => $user->id])->one();
-                $progress_data["cl_sd"] = $raw["count(*)"];
-                //Checklists on review
-                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["pushed_to_review" => "1", "user_id" => $user->id])->one();
-                $progress_data["cl_on_review"] = $raw["count(*)"];
-                //Good checklists
-                $raw = $query->select(["count(*)"])->from(CheckList::tableName())->where(["soft_delete" => "0", "user_id" => $user->id])->one();
-                $progress_data["cl_good"] = $raw["count(*)"];
-                //User name
-                $progress_data["username"] = $user->username;
-                //Time of last done checklist
-                $progress_data["last_cl_done"] = Yii::$app->formatter->format($user->userInformation->last_cl_done_time, "datetime");
-                //Time of last done task
-                $progress_data["last_task_done"] = Yii::$app->formatter->format($user->userInformation->last_task_done_time, "datetime");
-                $tr->commit();
-            } catch (\Exception $exception) {
-                ConsoleLog::log($exception->getMessage());
-                $tr->rollBack();
-                return $this->redirect(null, 404);
-            }
+
+            //Get different checklists counts
+            $progress_data = $user->prepareInfo();
+            //User name
+            $progress_data["username"] = $user->username;
+            //Time of last done checklist
+            $progress_data["last_cl_done"] = Yii::$app->formatter->format($user->userInformation->last_cl_done_time, "datetime");
+            //Time of last done task
+            $progress_data["last_task_done"] = Yii::$app->formatter->format($user->userInformation->last_task_done_time, "datetime");
+
             return $this->asJson($progress_data);
         }
-
-        $dataProvider = new ActiveDataProvider([
-            "query" => User::find(),
-            "pagination" => [
-                "pageSize" => 10
-            ]
-        ]);
-        $this->layout = $layout;
-        return $this->render("statistics", ["dataProvider" => $dataProvider]);
     }
 }

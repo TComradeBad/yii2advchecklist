@@ -7,17 +7,7 @@ use yii\db\Migration;
  */
 class m190913_104600_checklist_item extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
 
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         echo "m190913_104600_checklist_item cannot be reverted.\n";

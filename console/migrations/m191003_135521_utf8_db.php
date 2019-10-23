@@ -9,23 +9,6 @@ use yii\db\Migration;
  */
 class m191003_135521_utf8_db extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m191003_135521_utf8_db cannot be reverted.\n";
-
-        return false;
-    }
 
 
     public function up()

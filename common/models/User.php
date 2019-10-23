@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\classes\ConsoleLog;
+use common\models\CheckList;
 use Yii;
 use yii\base\Event;
 use yii\base\NotSupportedException;
@@ -11,7 +12,6 @@ use yii\db\ActiveRecord;
 use yii\filters\auth\HttpBasicAuth;
 use yii\helpers\Json;
 use yii\web\IdentityInterface;
-use common\models\CheckList;
 use yii\filters\auth\HttpBearerAuth;
 use common\models\UserInfo;
 
@@ -104,6 +104,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [["banned"], "boolean"],
         ];
     }
 
@@ -277,6 +278,22 @@ class User extends ActiveRecord implements IdentityInterface
     public function getCheckLists()
     {
         return $this->hasMany(CheckList::class, ["user_id" => "id"]);
+    }
+
+    public function prepareInfo()
+    {
+
+        $sql = "SELECT 
+        SUM(`done`=1 AND `user_id`=$this->id) AS cl_done_count, 
+        SUM(`done`=0 AND `user_id`=$this->id) AS cl_in_process_count,
+        SUM(`pushed_to_review`=1 AND `user_id`=$this->id) AS cl_on_review,
+        SUM(`soft_delete`=0 AND `user_id`=$this->id) AS cl_good,
+        SUM(`soft_delete`=1 AND `pushed_to_review` = 0 AND `user_id`=$this->id) AS cl_sd 
+        FROM " . CheckList::tableName() . ";";
+
+        Yii::$app->db->createCommand($sql)->queryAll() ;
+        return Yii::$app->db->createCommand($sql)->queryAll()[0] ;
+
     }
 
 

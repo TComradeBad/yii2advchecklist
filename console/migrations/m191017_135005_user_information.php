@@ -7,25 +7,6 @@ use yii\db\Migration;
  */
 class m191017_135005_user_information extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m191017_135005_user_information cannot be reverted.\n";
-
-        return false;
-    }
-
-
     // Use up()/down() to run migration code without a transaction.
     public function up()
     {
