@@ -20,7 +20,6 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "pahanini/yii2-consolelog": "^3.0",
         "phpnt/yii2-pace": "^0.0.2",
-        "phpnt/yii2-chartjs": "^0.0.2",
         "bower-asset/chartjs": "^2.8"
     },
     "require-dev": {

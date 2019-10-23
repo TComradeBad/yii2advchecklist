@@ -7,23 +7,6 @@ use yii\db\Migration;
  */
 class m190913_103119_checklist extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-
-
-        return false;
-    }
 
 
     public function up()

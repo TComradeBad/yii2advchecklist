@@ -9,26 +9,6 @@ use yii\db\Migration;
  */
 class m191010_090301_admin_sof_delete_commentary extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        echo "m191010_090301_admin_sof_delete_commentary cannot be reverted.\n";
-
-        return false;
-    }
-
-
-    // Use up()/down() to run migration code without a transaction.
     public function up()
     {
         $this->createTable("cl_problem", [

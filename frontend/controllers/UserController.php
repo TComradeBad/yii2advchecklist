@@ -234,9 +234,9 @@ class UserController extends BaseController
                         $cl = CheckList::findOne(["id" => $upd_id]);
                         $cl->user_id = $auth_user->id;
                         $cl->name = $data["name"];
-                        if ($cl->soft_delete == "1") {
+                        if ($cl->soft_delete == true) {
                             $problem = $cl->problem;
-                            $cl->pushed_to_review = "1";
+                            $cl->pushed_to_review = true;
                             $problem->update();
                         }
                         $cl->update();
@@ -305,10 +305,10 @@ class UserController extends BaseController
             if (Yii::$app->user->can("cl_owner", ["checklist" => $cl])) {
                 $cl_item = CheckListItem::findOne($data["item_id"]);
                 if ($data["value"] == "true") {
-                    $cl_item->done = "1";
+                    $cl_item->done = true;
                     $cl_item->trigger(CheckListItem::EVENT_TASK_UPDATED);
                 } else {
-                    $cl_item->done = "0";
+                    $cl_item->done = false;
                 }
                 $cl_item->update();
                 $cl->updateDoneStatus();

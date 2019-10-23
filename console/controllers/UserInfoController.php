@@ -4,28 +4,28 @@
 namespace console\controllers;
 
 
+use common\classes\ConsoleLog;
+use common\models\CheckListItem;
 use common\models\User;
 use common\models\UserInfo;
 use yii\console\Controller;
+use yii\db\Query;
 
 class UserInfoController extends Controller
 {
 
     public function actionIndex()
     {
-        $users = User::find()->all();
-        foreach ($users as $user) {
-            $info = new UserInfo();
-            $info->user_id = $user->id;
-            $info->save();
-        }
+        $this->actionDeleteInfo();
+
+        $sql = "INSERT INTO " . UserInfo::tableName() . " ( user_id )  SELECT id FROM " . User::tableName() . ";";
+
+        \Yii::$app->db->createCommand($sql)->execute();;
+
     }
 
     public function actionDeleteInfo()
     {
-        $users = User::find();
-        foreach ($users as $user) {
-            $user->userInformation->delete();
-        }
+        UserInfo::deleteAll();
     }
 }
