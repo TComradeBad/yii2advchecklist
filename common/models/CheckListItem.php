@@ -26,11 +26,6 @@ use yii\helpers\Json;
 class CheckListItem extends \yii\db\ActiveRecord
 {
     /**
-     * Events
-     */
-    const EVENT_TASK_DONE_CHANGE = "task done change";
-
-    /**
      * {@inheritdoc}
      */
     public static function tableName()

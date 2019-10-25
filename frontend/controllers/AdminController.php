@@ -313,7 +313,6 @@ class AdminController extends BaseController
                         $cl->pushed_to_review = false;
                         $problem->update();
                     }
-                    $cl->trigger(CheckList::EVENT_CHECKLIST_SOFT_DELETE_CHANGE);
                     $cl->soft_delete = true;
 
                     $cl->update();

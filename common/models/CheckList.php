@@ -30,14 +30,6 @@ use yii\helpers\Json;
 class CheckList extends \yii\db\ActiveRecord
 {
     /**
-     * Event's names
-     */
-    const EVENT_CHECKLIST_DONE_CHANGE = "checklist done change";
-    const EVENT_CHECKLIST_SOFT_DELETE_CHANGE = "soft delete change";
-    const EVENT_ON_REVIEW_CHANGE = "on review";
-
-
-    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -166,13 +158,11 @@ class CheckList extends \yii\db\ActiveRecord
         if (empty($raw)) {
             if ($this->done != true) {
                 $this->done = true;
-                $this->trigger(self::EVENT_CHECKLIST_DONE_CHANGE);
                 $this->update();
             }
         } else {
             if ($this->done != false) {
                 $this->done = false;
-                $this->trigger(self::EVENT_CHECKLIST_DONE_CHANGE);
                 $this->update();
 
             }
