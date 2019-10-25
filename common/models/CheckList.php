@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\behaviours\CheckListBehaviour;
 use common\classes\ConsoleLog;
 use common\models\CheckListItem;
 use frontend\assets\JsAsset;
@@ -31,7 +32,9 @@ class CheckList extends \yii\db\ActiveRecord
     /**
      * Event's names
      */
-    const EVENT_CHECKLIST_DONE = "checklist done";
+    const EVENT_CHECKLIST_DONE_CHANGE = "checklist done change";
+    const EVENT_CHECKLIST_SOFT_DELETE_CHANGE = "soft delete change";
+    const EVENT_ON_REVIEW_CHANGE = "on review";
 
 
     /**
@@ -49,7 +52,7 @@ class CheckList extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [["done","pushed_to_review","soft_delete"],"boolean"],
+            [["done", "pushed_to_review", "soft_delete"], "boolean"],
             [['name'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -112,9 +115,9 @@ class CheckList extends \yii\db\ActiveRecord
 
     public function behaviors()
     {
-        $this->on(self::EVENT_CHECKLIST_DONE, [self::class, "updateClInfo"]);
         return [
             TimestampBehavior::className(),
+            CheckListBehaviour::class,
         ];
     }
 
@@ -163,39 +166,19 @@ class CheckList extends \yii\db\ActiveRecord
         if (empty($raw)) {
             if ($this->done != true) {
                 $this->done = true;
-                $this->trigger(self::EVENT_CHECKLIST_DONE);
+                $this->trigger(self::EVENT_CHECKLIST_DONE_CHANGE);
                 $this->update();
             }
         } else {
             if ($this->done != false) {
                 $this->done = false;
+                $this->trigger(self::EVENT_CHECKLIST_DONE_CHANGE);
                 $this->update();
+
             }
+
         }
     }
-
-    /**
-     * Event handlers
-     */
-
-    /**
-     * @param $event Event
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public static function updateClInfo($event)
-    {
-        try {
-            ///** @var $cl CheckList */
-            $cl = $event->sender;
-            $info = $cl->user->userInformation;
-            $info->last_cl_done_time = $cl->updated_at;
-            $info->update();
-        } catch (\Exception $exception) {
-            ConsoleLog::log($exception->getMessage());
-        }
-    }
-
 
 
 }
