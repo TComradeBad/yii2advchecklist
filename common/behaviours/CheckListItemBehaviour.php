@@ -17,7 +17,8 @@ class CheckListItemBehaviour extends Behavior
     public function events()
     {
         return [
-            CheckListItem::EVENT_BEFORE_UPDATE => "beforeUpdate"
+            CheckListItem::EVENT_BEFORE_UPDATE => "beforeUpdate",
+
         ];
     }
 
@@ -28,11 +29,8 @@ class CheckListItemBehaviour extends Behavior
         $attr = $item->getDirtyAttributes();
         $info = UserInfo::findOne(["user_id" => $item->cl->user_id]);
         if ($item->isAttributeChanged("done")) {
-            if ($item->oldAttributes["done"] != $attr["done"]) {
-                if ($attr["done"]) {
-                    $info->last_task_done_time = $item->updated_at;
-
-                }
+            if ($item->oldAttributes["done"] != $attr["done"] and $attr["done"]) {
+                $info->last_task_done_time = $item->updated_at;
             }
         }
         $info->update();
