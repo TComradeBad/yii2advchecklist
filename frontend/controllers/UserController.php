@@ -306,7 +306,6 @@ class UserController extends BaseController
                 $cl_item = CheckListItem::findOne($data["item_id"]);
                 if ($data["value"] == "true") {
                     $cl_item->done = true;
-                    $cl_item->trigger(CheckListItem::EVENT_TASK_UPDATED);
                 } else {
                     $cl_item->done = false;
                 }

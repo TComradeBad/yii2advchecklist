@@ -9,6 +9,7 @@ use yii\base\Event;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\filters\auth\HttpBasicAuth;
 use yii\helpers\Json;
 use yii\web\IdentityInterface;
@@ -256,6 +257,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Get first user role
      * @inheritDoc
      */
     public function primaryRole()
@@ -270,31 +272,33 @@ class User extends ActiveRecord implements IdentityInterface
         return $role->name;
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserInformation()
     {
         return $this->hasOne(UserInfo::class, ["user_id" => "id"]);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCheckLists()
     {
         return $this->hasMany(CheckList::class, ["user_id" => "id"]);
     }
 
-    public function prepareInfo()
-    {
-
-        $sql = "SELECT 
-        SUM(`done`=1 AND `user_id`=$this->id) AS cl_done_count, 
-        SUM(`done`=0 AND `user_id`=$this->id) AS cl_in_process_count,
-        SUM(`pushed_to_review`=1 AND `user_id`=$this->id) AS cl_on_review,
-        SUM(`soft_delete`=0 AND `user_id`=$this->id) AS cl_good,
-        SUM(`soft_delete`=1 AND `pushed_to_review` = 0 AND `user_id`=$this->id) AS cl_sd 
-        FROM " . CheckList::tableName() . ";";
-
-        Yii::$app->db->createCommand($sql)->queryAll() ;
-        return Yii::$app->db->createCommand($sql)->queryAll()[0] ;
-
-    }
+//    /**
+//     * Get information from user_information table for this user
+//     * @return mixed
+//     * @throws \yii\db\Exception
+//     */
+//    public function prepareInfo()
+//    {
+//        $sql = (new Query())->select(["*"])->from([UserInfo::tableName()])->where(["user_id"=>$this->id])->createCommand()->getRawSql();
+//        return Yii::$app->db->createCommand($sql)->queryAll()[0] ;
+//
+//    }
 
 
 }

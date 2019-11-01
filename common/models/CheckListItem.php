@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\behaviours\CheckListItemBehaviour;
 use common\classes\ConsoleLog;
 use common\models\CheckList;
 use Yii;
@@ -24,11 +25,6 @@ use yii\helpers\Json;
  */
 class CheckListItem extends \yii\db\ActiveRecord
 {
-    /**
-     * Events
-     */
-    const EVENT_TASK_UPDATED = "task updated";
-
     /**
      * {@inheritdoc}
      */
@@ -75,33 +71,11 @@ class CheckListItem extends \yii\db\ActiveRecord
 
     public function behaviors()
     {
-        $this->on(self::EVENT_TASK_UPDATED, [self::class, "updateTaskInfo"]);
-
         return [
             TimestampBehavior::className(),
+            CheckListItemBehaviour::class,
         ];
     }
 
-    /**
-     * Events handler
-     */
-
-    /**
-     * @param $event
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public static function updateTaskInfo($event)
-    {
-        try {
-            /** @var $cl_item CheckListItem */
-            $cl_item = $event->sender;
-            $info = $cl_item->cl->user->userInformation;
-            $info->last_task_done_time = $cl_item->updated_at;
-            $info->update();
-        } catch (Exception $exception) {
-            ConsoleLog::log($exception->getMessage());
-        }
-    }
 
 }

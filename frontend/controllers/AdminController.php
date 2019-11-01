@@ -307,7 +307,6 @@ class AdminController extends BaseController
                         $problem->description = $data["description"];
                         $cl->pushed_to_review = false;
                         $problem->link("cl", $cl);
-                        $problem->save();
                     } else {
                         $problem = $cl->problem;
                         $problem->description = $data["description"];
@@ -361,15 +360,11 @@ class AdminController extends BaseController
 
     /**
      * Page with User Statistics
-     * @param null $id
      * @return string
      */
     public function actionStatistics()
     {
         $layout = $this->layout;
-
-
-
         $dataProvider = new ActiveDataProvider(["query" => User::find(),
             "pagination" => ["pageSize" => 10]]);
         $this->layout = $layout;
@@ -381,6 +376,7 @@ class AdminController extends BaseController
      * Return statistic data by id
      * @param null $id
      * @return Response
+     * @throws Exception
      */
     public function actionGetStatistics($id = null)
     {
@@ -391,7 +387,7 @@ class AdminController extends BaseController
             $this->layout = false;
 
             //Get different checklists counts
-            $progress_data = $user->prepareInfo();
+            $progress_data = $user->userInformation->attributes;
             //User name
             $progress_data["username"] = $user->username;
             //Time of last done checklist
@@ -401,5 +397,6 @@ class AdminController extends BaseController
 
             return $this->asJson($progress_data);
         }
+        return $this->redirect(null,404);
     }
 }
