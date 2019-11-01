@@ -288,17 +288,17 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(CheckList::class, ["user_id" => "id"]);
     }
 
-    /**
-     * Get information from user_information table for this user
-     * @return mixed
-     * @throws \yii\db\Exception
-     */
-    public function prepareInfo()
-    {
-        $sql = (new Query())->select(["*"])->from([UserInfo::tableName()])->where(["user_id"=>$this->id])->createCommand()->getRawSql();
-        return Yii::$app->db->createCommand($sql)->queryAll()[0] ;
-
-    }
+//    /**
+//     * Get information from user_information table for this user
+//     * @return mixed
+//     * @throws \yii\db\Exception
+//     */
+//    public function prepareInfo()
+//    {
+//        $sql = (new Query())->select(["*"])->from([UserInfo::tableName()])->where(["user_id"=>$this->id])->createCommand()->getRawSql();
+//        return Yii::$app->db->createCommand($sql)->queryAll()[0] ;
+//
+//    }
 
 
 }

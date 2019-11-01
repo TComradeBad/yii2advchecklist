@@ -387,7 +387,7 @@ class AdminController extends BaseController
             $this->layout = false;
 
             //Get different checklists counts
-            $progress_data = $user->prepareInfo();
+            $progress_data = $user->userInformation->attributes;
             //User name
             $progress_data["username"] = $user->username;
             //Time of last done checklist
