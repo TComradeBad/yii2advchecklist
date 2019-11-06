@@ -15,6 +15,17 @@ services:
       - ./logs/nginx-access.log:/var/log/nginx/access.log
       - ./logs/nginx-error.log:/var/log/nginx/error.log
 
+  rbmq:
+    image: 'bitnami/rabbitmq:latest'
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_PASSWORD=my_password
+      - RABBITMQ_DISK_FREE_LIMIT=1024
+    depends_on:
+      - app
+      - consoleapp
 
   app:
     build: DockerImages/App
@@ -30,6 +41,7 @@ services:
     build: DockerImages/Console
     volumes:
       - ./:/app
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
     depends_on:
       - mysql
 
@@ -59,11 +71,11 @@ services:
 
 
   #  php-fpm:
-#    image: php:fpm
-#    volumes:
-#      - ./:/app
-#    ports:
-#      - "9000:9000"
+  #    image: php:fpm
+  #    volumes:
+  #      - ./:/app
+  #    ports:
+  #      - "9000:9000"
 
   #pgsql:
   #  image: postgres:9.5

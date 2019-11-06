@@ -3,13 +3,14 @@
 
 namespace common\behaviours;
 
-
 use common\classes\ConsoleLog;
 use common\models\CheckListItem;
 use common\models\UserInfo;
-use Symfony\Component\Yaml\Tests\A;
+use PhpAmqpLib\Message\AMQPMessage;
 use yii\base\Behavior;
-use yii\db\ActiveRecord;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use yii\helpers\Json;
+
 
 class CheckListItemBehaviour extends Behavior
 {
@@ -18,7 +19,6 @@ class CheckListItemBehaviour extends Behavior
     {
         return [
             CheckListItem::EVENT_BEFORE_UPDATE => "beforeUpdate",
-
         ];
     }
 
@@ -26,14 +26,25 @@ class CheckListItemBehaviour extends Behavior
     {
         /** @var CheckListItem $item */
         $item = $this->owner;
-        $attr = $item->getDirtyAttributes();
-        $info = UserInfo::findOne(["user_id" => $item->cl->user_id]);
-        if ($item->isAttributeChanged("done")) {
-            if ($item->oldAttributes["done"] != $attr["done"] and $attr["done"]) {
-                $info->last_task_done_time = $item->updated_at;
-            }
+        try {
+            $connection = new AMQPStreamConnection('rbmq', "5672", 'user', 'my_password');
+            $channel = $connection->channel();
+            $channel->queue_declare('item_update_queue', false, false, false, false);
+            $msg = new AMQPMessage(
+                Json::encode(
+                    [
+                        "item" => $item->attributes,
+                        "dirty" => $item->getDirtyAttributes(),
+                        "old"=>$item->oldAttributes,
+                    ]),
+                [
+                    "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
+                ]
+            );
+            $channel->basic_publish($msg, '', 'item_update_queue');
+        } catch (\Exception $exception) {
+            var_dump($exception);
         }
-        $info->update();
 
     }
 }
