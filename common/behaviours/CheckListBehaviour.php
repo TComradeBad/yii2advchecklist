@@ -4,6 +4,7 @@ namespace common\behaviours;
 
 use common\models\CheckList;
 use common\models\UserInfo;
+use common\RabbitMqHelper\RabbitMqHelper;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use yii\base\Behavior;
@@ -31,21 +32,19 @@ class CheckListBehaviour extends Behavior
         /** @var CheckList $cl */
         $cl = $this->owner;
 
-        $connection = new AMQPStreamConnection("rbmq", "5672", "user", "my_password");
-        $channel = $connection->channel();
-        $channel->queue_declare("cl_update_queue", false, false, false, false);
+        $channel = RabbitMqHelper::connect("cl_update_queue");
         $msg = new AMQPMessage(
             Json::encode(
                 [
                     "cl" => $cl->attributes,
-                    "old"=>$cl->oldAttributes,
+                    "old" => $cl->oldAttributes,
                     "dirty" => $cl->getDirtyAttributes()
                 ]),
             [
                 "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
             ]
         );
-        $channel->basic_publish($msg,"","cl_update_queue");
+        $channel->publish($msg);
     }
 
     /**
@@ -56,10 +55,7 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-
-        $connection = new AMQPStreamConnection("rbmq", "5672", "user", "my_password");
-        $channel = $connection->channel();
-        $channel->queue_declare("cl_insert_queue", false, false, false, false);
+        $channel = RabbitMqHelper::connect("cl_insert_queue");
         $msg = new AMQPMessage(
             Json::encode(
                 [
@@ -69,7 +65,7 @@ class CheckListBehaviour extends Behavior
                 "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
             ]
         );
-        $channel->basic_publish($msg,"","cl_insert_queue");
+        $channel->publish($msg,);
     }
 
     /**
@@ -80,10 +76,7 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-
-        $connection = new AMQPStreamConnection("rbmq", "5672", "user", "my_password");
-        $channel = $connection->channel();
-        $channel->queue_declare("cl_delete_queue", false, false, false, false);
+        $channel = RabbitMqHelper::connect("cl_delete_queue");
         $msg = new AMQPMessage(
             Json::encode(
                 [
@@ -93,7 +86,7 @@ class CheckListBehaviour extends Behavior
                 "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
             ]
         );
-        $channel->basic_publish($msg,"","cl_delete_queue");
+        $channel->publish($msg);
 
     }
 
