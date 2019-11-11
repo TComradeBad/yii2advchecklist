@@ -58,7 +58,7 @@ class ClStatsController extends Controller
     public function actionChecklistsInsert()
     {
         $channel = RabbitMqHelper::connect("cl_insert_queue");
-        $channel->consume(function ($msg){
+        $channel->consume(function ($msg) {
             $this->clInsertHandler($msg);
         });
         $channel->wait();
@@ -147,14 +147,19 @@ class ClStatsController extends Controller
         $old = $data["old"];
         try {
             $cl = CheckList::findOne(["id" => $item_data["cl_id"]]);
-            $info = UserInfo::findOne(["user_id" => $cl->user_id]);
-            if (isset($dirty["done"])) {
-                if ($old["done"] != $dirty["done"] && $dirty["done"]) {
-                    $info->last_task_done_time = $item_data["updated_at"];
+            if (isset($cl)) {
+                $info = UserInfo::findOne(["user_id" => $cl->user_id]);
+                if (isset($dirty["done"])) {
+                    if ($old["done"] != $dirty["done"] && $dirty["done"]) {
+                        $info->last_task_done_time = $item_data["updated_at"];
 
+                    }
                 }
+                $info->update();
+            } else {
+                throw new \Exception("Checklist not found");
             }
-            $info->update();
+
         } catch (\Exception $exception) {
             ConsoleLog::log($exception->getMessage());
             ConsoleLog::log($exception->getTraceAsString());
