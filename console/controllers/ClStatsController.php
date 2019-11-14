@@ -5,7 +5,7 @@ namespace console\controllers;
 
 use common\models\CheckList;
 use common\models\UserInfo;
-use common\RabbitMqHelper\RabbitMqHelper;
+use common\RabbitMqService\RabbitMqService;
 use common\classes\ConsoleLog;
 use PhpAmqpLib\Message\AMQPMessage;
 use yii\console\Controller;
@@ -13,6 +13,10 @@ use yii\helpers\Json;
 
 class ClStatsController extends Controller
 {
+    const QUEUE_FOR_UPDATE = "cl_update_queue";
+    const QUEUE_FOR_INSERT = "cl_insert_queue";
+    const QUEUE_FOR_DELETE = "cl_delete_queue";
+    const QUEUE_FOR_UPDATE_ITEM = 'item_update_queue';
 
     /**
      * Listen queue and manage statistics for items
@@ -20,7 +24,9 @@ class ClStatsController extends Controller
      */
     public function actionItemsUpdate()
     {
-        $channel = RabbitMqHelper::connect("item_update_queue");
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $channel = $rb->connect(self::QUEUE_FOR_UPDATE_ITEM);
         $channel->consume(function ($msg) {
             $this->itemUpdateHandler($msg);
         });
@@ -32,7 +38,9 @@ class ClStatsController extends Controller
      */
     public function actionChecklistsUpdate()
     {
-        $channel = RabbitMqHelper::connect("cl_update_queue");
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $channel = $rb->connect(self::QUEUE_FOR_UPDATE);
         $channel->consume(function ($msg) {
             $this->clUpdateHandler($msg);
         });
@@ -44,7 +52,10 @@ class ClStatsController extends Controller
      */
     public function actionChecklistsDelete()
     {
-        $channel = RabbitMqHelper::connect("cl_delete_queue");
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+
+        $channel = $rb->connect(self::QUEUE_FOR_DELETE);
         $channel->consume(function ($msg) {
             $this->clDeleteHandler($msg);
         });
@@ -57,7 +68,9 @@ class ClStatsController extends Controller
      */
     public function actionChecklistsInsert()
     {
-        $channel = RabbitMqHelper::connect("cl_insert_queue");
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $channel = $rb->connect(self::QUEUE_FOR_INSERT);
         $channel->consume(function ($msg) {
             $this->clInsertHandler($msg);
         });

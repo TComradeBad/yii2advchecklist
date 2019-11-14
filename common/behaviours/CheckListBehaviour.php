@@ -3,9 +3,7 @@
 namespace common\behaviours;
 
 use common\models\CheckList;
-use common\models\UserInfo;
-use common\RabbitMqHelper\RabbitMqHelper;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use common\RabbitMqService\RabbitMqService;
 use PhpAmqpLib\Message\AMQPMessage;
 use yii\base\Behavior;
 use yii\helpers\Json;
@@ -13,6 +11,9 @@ use yii\helpers\Json;
 
 class CheckListBehaviour extends Behavior
 {
+    const QUEUE_FOR_UPDATE = "cl_update_queue";
+    const QUEUE_FOR_INSERT = "cl_insert_queue";
+    const QUEUE_FOR_DELETE = "cl_delete_queue";
 
     public function events()
     {
@@ -31,20 +32,18 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-
-        $channel = RabbitMqHelper::connect("cl_update_queue");
-        $msg = new AMQPMessage(
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_UPDATE,
             Json::encode(
                 [
                     "cl" => $cl->attributes,
                     "old" => $cl->oldAttributes,
                     "dirty" => $cl->getDirtyAttributes()
-                ]),
-            [
-                "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
-            ]
+                ]
+            )
         );
-        $channel->publish($msg);
+
     }
 
     /**
@@ -55,17 +54,16 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-        $channel = RabbitMqHelper::connect("cl_insert_queue");
-        $msg = new AMQPMessage(
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_INSERT,
             Json::encode(
                 [
                     "cl" => $cl->attributes,
-                ]),
-            [
-                "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
-            ]
+                ]
+            )
         );
-        $channel->publish($msg,);
+
     }
 
     /**
@@ -76,18 +74,15 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-        $channel = RabbitMqHelper::connect("cl_delete_queue");
-        $msg = new AMQPMessage(
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_DELETE,
             Json::encode(
                 [
                     "cl" => $cl->attributes,
-                ]),
-            [
-                "delivery_mode" => AMQPMessage::DELIVERY_MODE_PERSISTENT
-            ]
+                ]
+            )
         );
-        $channel->publish($msg);
-
     }
 
 
