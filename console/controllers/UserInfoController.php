@@ -15,9 +15,13 @@ use yii\db\Query;
 class UserInfoController extends Controller
 {
 
-    public function actionIndex()
+    /**
+     * Fill user info for all users
+     * @throws \yii\db\Exception
+     */
+    public static function insertInTable()
     {
-        $this->actionDeleteInfo();
+        UserInfo::deleteAll();
 
         $query = (new Query())->select([
             "user_id" => "user.id",
@@ -27,7 +31,7 @@ class UserInfoController extends Controller
             "cl_good_count" => "t.cl_good_count",
             "cl_sd_count" => "t.cl_sd_count",
 
-        ],)->from([User::tableName()])->leftJoin(["(".
+        ],)->from([User::tableName()])->leftJoin(["(" .
             (new Query())->select([
                 "cl_done_count" => "SUM(`done`=1)",
                 "cl_in_process_count" => "SUM(`done`=0)",
@@ -39,10 +43,22 @@ class UserInfoController extends Controller
         ], "user.id=t.user_id")->createCommand()->getRawSql();
 
         \Yii::$app->db->createCommand("INSERT INTO " . UserInfo::tableName() .
-            "(user_id,cl_done_count,cl_in_process_count,cl_on_review,cl_good_count,cl_sd_count) " . $query.";")->execute();
+            "(user_id,cl_done_count,cl_in_process_count,cl_on_review,cl_good_count,cl_sd_count) " . $query . ";")->execute();
+
 
     }
 
+    /**
+     * Default Console action
+     */
+    public function actionIndex()
+    {
+        self::insertInTable();
+    }
+
+    /**
+     * Clear table
+     */
     public function actionDeleteInfo()
     {
         UserInfo::deleteAll();

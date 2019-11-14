@@ -3,22 +3,22 @@
 
 namespace common\behaviours;
 
-
-use common\classes\ConsoleLog;
 use common\models\CheckListItem;
 use common\models\UserInfo;
-use Symfony\Component\Yaml\Tests\A;
+use common\RabbitMqService\RabbitMqService;
+use PhpAmqpLib\Message\AMQPMessage;
 use yii\base\Behavior;
-use yii\db\ActiveRecord;
+use yii\helpers\Json;
+
 
 class CheckListItemBehaviour extends Behavior
 {
+    const QUEUE_FOR_UPDATE_ITEM = 'item_update_queue';
 
     public function events()
     {
         return [
             CheckListItem::EVENT_BEFORE_UPDATE => "beforeUpdate",
-
         ];
     }
 
@@ -26,14 +26,16 @@ class CheckListItemBehaviour extends Behavior
     {
         /** @var CheckListItem $item */
         $item = $this->owner;
-        $attr = $item->getDirtyAttributes();
-        $info = UserInfo::findOne(["user_id" => $item->cl->user_id]);
-        if ($item->isAttributeChanged("done")) {
-            if ($item->oldAttributes["done"] != $attr["done"] and $attr["done"]) {
-                $info->last_task_done_time = $item->updated_at;
-            }
-        }
-        $info->update();
-
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_UPDATE_ITEM,
+            Json::encode(
+                [
+                    "item" => $item->attributes,
+                    "dirty" => $item->getDirtyAttributes(),
+                    "old" => $item->oldAttributes,
+                ]
+            )
+        );
     }
 }

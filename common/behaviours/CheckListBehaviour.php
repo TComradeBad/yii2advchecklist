@@ -2,17 +2,18 @@
 
 namespace common\behaviours;
 
-use common\classes\ConsoleLog;
 use common\models\CheckList;
-use common\models\CheckListItem;
-use common\models\UserInfo;
+use common\RabbitMqService\RabbitMqService;
+use PhpAmqpLib\Message\AMQPMessage;
 use yii\base\Behavior;
-use yii\base\Event;
-use yii\db\ActiveRecord;
 use yii\helpers\Json;
+
 
 class CheckListBehaviour extends Behavior
 {
+    const QUEUE_FOR_UPDATE = "cl_update_queue";
+    const QUEUE_FOR_INSERT = "cl_insert_queue";
+    const QUEUE_FOR_DELETE = "cl_delete_queue";
 
     public function events()
     {
@@ -31,20 +32,18 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-        $info = UserInfo::findOne(["user_id" => $cl->user_id]);
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_UPDATE,
+            Json::encode(
+                [
+                    "cl" => $cl->attributes,
+                    "old" => $cl->oldAttributes,
+                    "dirty" => $cl->getDirtyAttributes()
+                ]
+            )
+        );
 
-        if ($cl->isAttributeChanged("done")) {
-            $info = $this->modifyUserInfoDoneAttribute($info, $cl);
-        }
-
-        if ($cl->isAttributeChanged("soft_delete")) {
-            $info = $this->modifyUserInfoSDAttribute($info, $cl);
-        }
-
-        if ($cl->isAttributeChanged("pushed_to_review")) {
-            $info = $this->modifyUserInfoPushedToReview($info, $cl);
-        }
-        $info->update();
     }
 
     /**
@@ -55,9 +54,16 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-        $info = UserInfo::findOne(["user_id" => $cl->user_id]);
-        $info->cl_in_process_count++;
-        $info->update();
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_INSERT,
+            Json::encode(
+                [
+                    "cl" => $cl->attributes,
+                ]
+            )
+        );
+
     }
 
     /**
@@ -68,83 +74,16 @@ class CheckListBehaviour extends Behavior
     {
         /** @var CheckList $cl */
         $cl = $this->owner;
-        $info = UserInfo::findOne(["user_id" => $cl->user_id]);
-
-        if ($cl->done) {
-            $info->cl_done_count--;
-        } else {
-            $info->cl_in_process_count--;
-        }
-
-        if ($cl->soft_delete) {
-            $info->cl_sd_count--;
-        } else {
-            $info->cl_good_count--;
-        }
-        if ($cl->pushed_to_review) {
-            $info->cl_on_review--;
-        }
-        $info->update();
-
+        /** @var RabbitMqService $rb */
+        $rb = \Yii::$app->rabbitMqService;
+        $rb->sendMessageToQueue(self::QUEUE_FOR_DELETE,
+            Json::encode(
+                [
+                    "cl" => $cl->attributes,
+                ]
+            )
+        );
     }
 
-    /**
-     * @param $info UserInfo
-     * @param $cl CheckList
-     * @return UserInfo
-     */
-    public function modifyUserInfoDoneAttribute($info, $cl)
-    {
-        $attr = $cl->getDirtyAttributes();
-        if ($cl->oldAttributes["done"] != $attr["done"]) {
-            if ($attr["done"]) {
-                $info->last_cl_done_time = $cl->updated_at;
-                $info->cl_done_count++;
-                $info->cl_in_process_count = ($info->cl_in_process_count > 0) ? $info->cl_in_process_count - 1 : $info->cl_in_process_count;
-            } else {
-                $info->cl_done_count = ($info->cl_done_count > 0) ? $info->cl_done_count - 1 : $info->cl_done_count;
-                $info->cl_in_process_count++;
-            }
-        }
-        return $info;
-    }
-
-    /**
-     * @param $info UserInfo
-     * @param $cl CheckList
-     * @return UserInfo
-     */
-    public function modifyUserInfoSDAttribute($info, $cl)
-    {
-        $attr = $cl->getDirtyAttributes();
-        if ($cl->oldAttributes["soft_delete"] != $attr["soft_delete"]) {
-            if ($attr["soft_delete"]) {
-                $info->cl_sd_count++;
-                $info->cl_good_count = ($info->cl_good_count > 0) ? $info->cl_good_count - 1 : $info->cl_good_count;
-            } else {
-                $info->cl_sd_count = ($info->cl_sd_count > 0) ? $info->cl_sd_count - 1 : $info->cl_sd_count;
-                $info->cl_good_count++;
-            }
-        }
-        return $info;
-    }
-
-    /**
-     * @param $info UserInfo
-     * @param $cl CheckList
-     * @return UserInfo
-     */
-    public function modifyUserInfoPushedToReview($info, $cl)
-    {
-        $attr = $cl->getDirtyAttributes();
-        if ($cl->oldAttributes["pushed_to_review"] != $attr["pushed_to_review"]) {
-            if ($attr["pushed_to_review"]) {
-                $info->cl_on_review++;
-            } else {
-                $info->cl_on_review = ($info->cl_on_review > 0) ? $info->cl_on_review - 1 : $info->cl_on_review;
-            }
-        }
-        return $info;
-    }
 
 }

@@ -3,6 +3,7 @@
 namespace console\controllers;
 
 use common\models\User;
+use common\models\UserOptionForm;
 use yii\console\Controller;
 
 class AdminSeedController extends Controller
@@ -41,6 +42,8 @@ class AdminSeedController extends Controller
         $user->save();
         $auth = \Yii::$app->authManager;
         $auth->assign($auth->getRole("moderator"), $user->id);
+
+        UserInfoController::insertInTable();
     }
 
     public function actionRemove()
